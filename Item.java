@@ -1,19 +1,11 @@
-//UPDATE =???
-/**
- * Write a description of class Item here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
+
 public class Item
 {
     private String name;
-    private String itemDescription;
    
-    public Item(String name, String itemDescription)
+    public Item(String name)
     {
         this.name=name;
-        this.itemDescription=itemDescription;
     }
    
     /**
@@ -22,13 +14,5 @@ public class Item
     public String getName()
     {
         return name;
-    }
-   
-    /**
-     * Returns a description of the item.
-     */
-    public String getDescription()
-    {
-        return itemDescription;
     }
 }

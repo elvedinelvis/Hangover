@@ -1,15 +1,9 @@
-import java.util.*;
-/**
- * Write a description of class Game here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
-//TESTAR SNABBT SÅ
+
 public class Game
 {
     //private Room currentRoom;
     private Player player1;
+    
     /**
      * Constructor for objects of class Game
      */
@@ -17,6 +11,7 @@ public class Game
     {
         player1 = new Player("Kim K");
         player1.enterRoom(creategame());
+        printWelcome();
     }
     
     private Room creategame()
@@ -37,13 +32,6 @@ public class Game
         suitcase = new Room("suitcase", "suitcase");
         roof = new Room("rooftop", "on the rooftop of the hotel");
         storage = new Room("storage room", "in the storage room");
-        
-        //create items
-        watch = new Item("watch", "a rolex watch");
-        toiletpaper = new Item("toiletpaper", "extra long toiletpaper");
-        book = new Item("book", "Objects first with java 5th edition");
-        gloves = new Item("gloves", "tiger of sweden gloves");
-        
         
         outside.setExit("north", lobby);
         outside.setExit("west", roof);
@@ -74,55 +62,57 @@ public class Game
         suitcase.setExit("southwest", suite);
         
         //create items
-        toiletpaper = new Item("toiletpaper", "extra long toiletpaper");
-        book = new Item("book", "objects first with java");
-        gloves = new Item("gloves", "handmade black leather gloves");
-        booze = new Item("booze", "a bottle of norrlands guld");
-        phone = new Item("phone", "a nokia 3310");
+        toiletpaper = new Item("toiletpaper");
+        book = new Item("book");
+        gloves = new Item("gloves");
+        booze = new Item("booze");
+        phone = new Item("phone");
+        watch = new Item("watch");
         
         //add items to room
         bathroom.addItem(toiletpaper);
         bedroom.addItem(book);
+        bedroom.addItem(watch);
         suite.addItem(gloves);
         suite.addItem(booze);
         outside.addItem(phone);
         
         return outside;
     }
-    
-    public void play()
+    /**
+     * Main method that executes the user input commands.
+     * 
+     * @param com The command to be executed along with desired direction or item.
+     */
+    public void play(String[] com)
     {
-        printWelcome();
-        boolean quit = false;
-        while(!quit) {
-            Scanner cs = new Scanner(System.in);
-            String command = cs.nextLine();
-            String[] com = command.split(" ");
-            switch(com[0]) {
-                case "go":
-                    go(com[1]);
-                    break;
-                case "take":
-                    pickItem(com[1]);
-                    break;
-                case "drop":
-                    dropItem(com[1]);
-                    break;
-                case "quit":
-                    quit = true;
-                    break;
-                case "backpack":
-                    backpack();
-                    break;
-                default:
-                    System.out.println("Invalid command");
-                    break;
-            }
+        switch(com[0]) {
+	        case "go":
+	            go(com[1]);
+	            break;
+	        case "take":
+	            pickItem(com[1]);
+	            break;
+	        case "drop":
+	            dropItem(com[1]);
+	            break;
+	        case "quit":
+	            quit();
+	            break;
+	        case "backpack":
+	            backpack();
+	            break;
+	        case "help":
+	        	help();
+	        	break;
+	        default:
+	            System.out.println("Invalid command");
+	            break;
         }
-        System.out.println("Thanks for playing, bye");
-        System.exit(0);
     }
-    
+    /**
+     * Prints out a welcome message when starting a new game.
+     */
     private void printWelcome()
     {
         System.out.print("Hello " + player1.getName());
@@ -131,11 +121,21 @@ public class Game
         System.out.println(player1.getExits());
     }
     
+    /**
+     * Prints out the current location information,
+     * i.e items and exits of the curent room.
+     */
+    private void printLocationInfo()
+    {
+    	player1.printLocationInfo();
+    }
+    
+    //Command Methods
     private void go(String direction)
     {
         if(player1.getCurrentRoom().testDirection(direction)) {
             player1.enterRoom(player1.getCurrentRoom().getExit(direction));
-            System.out.println("You are in the " + player1.getCurrentRoom().getName());
+            System.out.println("You are in the " + player1.getCurrentRoom().getDescription());
             printLocationInfo();
         }
         else {
@@ -147,7 +147,6 @@ public class Game
     {
         if(player1.getCurrentRoom().itemExist(item)) {
             player1.pickUpItem(item);
-            printLocationInfo();
         }
         else {
             System.out.println("Item does not exist");
@@ -156,19 +155,26 @@ public class Game
     
     private void dropItem(String item)
     {
-        if(player1.dropItem(item)) {
-            printLocationInfo();
+        if(!player1.dropItem(item)) {
+            System.out.println("You do not have that item in your backpack");
         }
-    }
-    
-    private void printLocationInfo()
-    {       
-        System.out.println(player1.getCurrentRoom().getItemString());
-        System.out.println(player1.getExits());
     }
     
     private void backpack()
     {
         System.out.println(player1.getbackpackString());
+    }
+    
+    private void help()
+    {
+    	System.out.println("You are " + player1.getCurrentRoom().getDescription());
+    	System.out.println("Available commands: go, take, backpack, quit, help");
+    }
+    /**
+     * Method that is performed when a user wishes to quit the game.
+     */
+    private void quit()
+    {
+    	System.exit(0);
     }
 }

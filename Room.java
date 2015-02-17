@@ -1,11 +1,5 @@
 import java.util.*;
 
-/**
- * Write a description of class Room here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Room
 {
     //Fields
@@ -16,12 +10,12 @@ public class Room
     /**
      * Constructor for objects of class Room
      */
-    public Room(String room, String description)
+    public Room(String name, String description)
     {
         exits = new HashMap<String, Room>();
         items = new HashMap<String, Item>();
         this.description = description;
-        name = room;
+        this.name = name;
     }
     
     //Methods
@@ -33,7 +27,7 @@ public class Room
     public void removeItem(Item item)
     {
         if(items.containsKey(item.getName())) {
-            items.remove(item);
+            items.remove(item.getName());
         }
     }
     
@@ -72,9 +66,9 @@ public class Room
     {
     }*/
     
-    public void setExit(String direction, Room room)
+    public void setExit(String name, Room room)
     {
-        exits.put(direction, room);
+        exits.put(name, room);
     }
     
     public Room getExit(String direction)
@@ -108,8 +102,8 @@ public class Room
         return returnString.toString();
     }
     
-    public String getName()
+    public String getDescription()
     {
-        return name;
+        return description;
     }
 }

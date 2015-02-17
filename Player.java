@@ -1,10 +1,4 @@
-import java.util.*;
-/**
- * Write a description of class Player here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
+
 public class Player
 {
     //Fields
@@ -13,7 +7,7 @@ public class Player
     private int maxItem;
     //private Hangometer hangometer;
     private Backpack backpack;
-    //private HashMap<String, Item> itemInfo;
+    
     /**
      * Constructor for objects of class Player
      */
@@ -27,6 +21,10 @@ public class Player
     }
     
     //Methods
+    /**
+     * Method is called when you want to know about the players name.
+     * @return The name of the player.
+     */
     public String getName()
     {
         return name;
@@ -39,6 +37,7 @@ public class Player
            backpack.addItem(item1);
            currentRoom.removeItem(item1);
            System.out.println("Item picked up");
+           printLocationInfo();
         }
     }
     
@@ -47,6 +46,7 @@ public class Player
         if(itemInBackpack(item)) {
             currentRoom.addItem(backpack.getItem(item));
             backpack.removeItem(item);
+            printLocationInfo();
             return true;
         }
         return false;
@@ -83,5 +83,11 @@ public class Player
     private boolean itemInBackpack(String item)
     {
         return backpack.itemExist(item);
+    }
+    
+    public void printLocationInfo()
+    {
+    	System.out.println(currentRoom.getItemString());
+    	System.out.println(currentRoom.getExitString());
     }
 }
