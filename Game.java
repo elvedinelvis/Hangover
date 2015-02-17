@@ -5,6 +5,7 @@ import java.util.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
+//TESTAR SNABBT SÅ
 public class Game
 {
     //private Room currentRoom;
