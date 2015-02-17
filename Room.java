@@ -1,5 +1,11 @@
 import java.util.*;
 
+/**
+ * Creates a room with exits, rooms and a description.
+ * 
+ * @author
+ *
+ */
 public class Room
 {
     //Fields
@@ -7,6 +13,7 @@ public class Room
     private HashMap<String, Item> items;
     private String description;
     private String name;
+    
     /**
      * Constructor for objects of class Room
      */
@@ -19,11 +26,21 @@ public class Room
     }
     
     //Methods
+    /**
+     * Adds the specified item to the room.
+     * 
+     * @param item The item to be added.
+     */
     public void addItem(Item item)
     {
         items.put(item.getName(), item);
     }
     
+    /**
+     * Removes the specified item.
+     * 
+     * @param item The item to be removed.
+     */
     public void removeItem(Item item)
     {
         if(items.containsKey(item.getName())) {
@@ -31,11 +48,24 @@ public class Room
         }
     }
     
+    /**
+     * Gets the specified item.
+     * 
+     * @param item The item to get.
+     * 
+     * @return The requested item.
+     */
     public Item getItem(String item)
     {
         return items.get(item);
     }
     
+    /**
+     * Checks if the specified item is in the room.
+     * 
+     * @param item The item to check.
+     * @return true if item exist, otherwise false.
+     */
     public boolean itemExist(String item)
     {
         if(items.containsKey(item)) {
@@ -46,6 +76,11 @@ public class Room
         }
     }
     
+    /**
+     * Collects a string of all the items in the room.
+     * 
+     * @return A string of all the items.
+     */
     public String getItemString()
     {
         StringBuilder returnString = new StringBuilder();
@@ -62,20 +97,36 @@ public class Room
         return returnString.toString();
     }
     
-    /*public void getGUI()
-    {
-    }*/
-    
+    /**
+     * Connects/sets the exits of the room. I.e, creating the map.
+     * 
+     * @param name The name of the room.
+     * @param room The room itself.
+     */
     public void setExit(String name, Room room)
     {
         exits.put(name, room);
     }
     
+    /**
+     * Gets the exit at the specified direction.
+     * 
+     * @param direction The direction where the specified room is located.
+     * 
+     * @return The room at the specified direction.
+     */
     public Room getExit(String direction)
     {
         return exits.get(direction);
     }
     
+    /**
+     * Checks if a room is at the specified direction.
+     * 
+     * @param direction The direction to be checked.
+     * 
+     * @return true if a room exists at the specified direction, otherwise false.
+     */
     public boolean testDirection(String direction)
     {
         if(exits.containsKey(direction)) {
@@ -86,6 +137,11 @@ public class Room
         }
     }
     
+    /**
+     * Collects a string of all the exits in the room.
+     * 
+     * @return The exits in the room.
+     */
     public String getExitString()
     {
         StringBuilder returnString = new StringBuilder();
@@ -102,8 +158,17 @@ public class Room
         return returnString.toString();
     }
     
+    /**
+     * Gets the description of a room.
+     * 
+     * @return The description.
+     */
     public String getDescription()
     {
         return description;
     }
+    
+    /*public void getGUI()
+    {
+    }*/
 }

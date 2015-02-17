@@ -1,4 +1,12 @@
 
+/**
+ * Creates the game, i.e the rooms, exits and items.
+ * React to user input commands and executes some
+ * type of action depending on the command.
+ * 
+ * @author
+ *
+ */
 public class Game
 {
     //private Room currentRoom;
@@ -9,11 +17,14 @@ public class Game
      */
     public Game()
     {
-        player1 = new Player("Kim K");
-        player1.enterRoom(creategame());
-        printWelcome();
+        player1 = new Player("Kim K", creategame());
     }
     
+    /**
+     * Creates the rooms, room exits, items and adds items to rooms.
+     * I.e creates the game.
+     * @return The starting position of the game.
+     */
     private Room creategame()
     {
         Room outside, lobby, roof, basement, store, suite, bathroom, bedroom,
@@ -79,6 +90,7 @@ public class Game
         
         return outside;
     }
+    
     /**
      * Main method that executes the user input commands.
      * 
@@ -103,78 +115,58 @@ public class Game
 	            backpack();
 	            break;
 	        case "help":
-	        	help();
+	        	player1.help();
 	        	break;
 	        default:
 	            System.out.println("Invalid command");
 	            break;
         }
     }
-    /**
-     * Prints out a welcome message when starting a new game.
-     */
-    private void printWelcome()
-    {
-        System.out.print("Hello " + player1.getName());
-        System.out.println(" and welcome to the Hangover game");
-        System.out.println("Enter a direction to move to another room");
-        System.out.println(player1.getExits());
-    }
+    
+    //Methods
     
     /**
-     * Prints out the current location information,
-     * i.e items and exits of the curent room.
+     * Moves to the room at the specified direction.
+     * 
+     * @param direction The direction to move to.
      */
-    private void printLocationInfo()
-    {
-    	player1.printLocationInfo();
-    }
-    
-    //Command Methods
     private void go(String direction)
     {
-        if(player1.getCurrentRoom().testDirection(direction)) {
-            player1.enterRoom(player1.getCurrentRoom().getExit(direction));
-            System.out.println("You are in the " + player1.getCurrentRoom().getDescription());
-            printLocationInfo();
-        }
-        else {
-            System.out.println("No room in that direction or invalid command");
-        }
+    	player1.go(direction);
     }
     
+    /**
+     * Picks up the item that is specified in the parameter.
+     * 
+     * @param item The item to be picked up.
+     */
     private void pickItem(String item)
     {
-        if(player1.getCurrentRoom().itemExist(item)) {
-            player1.pickUpItem(item);
-        }
-        else {
-            System.out.println("Item does not exist");
-        }
+    	player1.pickUpItem(item);
     }
-    
+    /**
+     * Drops the the item that is specified in the parameter.
+     * 
+     * @param item The item to be dropped.
+     */
     private void dropItem(String item)
     {
-        if(!player1.dropItem(item)) {
-            System.out.println("You do not have that item in your backpack");
-        }
+    	player1.dropItem(item);
     }
-    
+    /**
+     * Prints out the items in the backpack.
+     */
     private void backpack()
     {
-        System.out.println(player1.getbackpackString());
+        player1.printBackpack();
     }
     
-    private void help()
-    {
-    	System.out.println("You are " + player1.getCurrentRoom().getDescription());
-    	System.out.println("Available commands: go, take, backpack, quit, help");
-    }
     /**
      * Method that is performed when a user wishes to quit the game.
      */
     private void quit()
     {
+    	System.out.println("Thanks for playing " + player1.getName() + ", bye!");
     	System.exit(0);
     }
 }

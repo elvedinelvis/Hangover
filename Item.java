@@ -1,4 +1,10 @@
 
+/**
+ * Creates an item with a unique name.
+ * 
+ * @author
+ *
+ */
 public class Item
 {
     private String name;
