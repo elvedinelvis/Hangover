@@ -1,0 +1,26 @@
+
+public class HangOMeter
+{
+    private final int maxValue = 100;
+    private final int dropRate = 10;
+    public int currentValue;
+
+    public HangOMeter()
+    {
+        HangOMeter hangOMeter = new HangOMeter();
+        currentValue = 50;
+    }
+    
+    /*
+     * currentValue drops each time this function is called.
+     */
+    public void currentValue() 
+    {
+        currentValue=-dropRate;
+    }
+    
+    public int getCurrentValue() 
+    {
+        return currentValue;
+    }
+}
