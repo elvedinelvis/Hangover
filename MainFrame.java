@@ -1,12 +1,14 @@
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
 /**
- * The mainframe, or mainwindow which holds and connects all sub-gui's.
+ * The mainframe, or main window which holds and connects all sub-gui's.
  * 
  * @author Elvedin Cuskic
  * @version 3/2 - 15
@@ -14,19 +16,21 @@ import java.awt.Dimension;
 public class MainFrame
 {
     private JFrame frame;
+    private Game game;
 
     /**
      * Constructor for objects of class MainFrame
      */
-    public MainFrame()
+    public MainFrame(Game game)
     {
-        makeFrame();
+    	this.game = game;
+        makeFrame(game);
     }
   
     /**
      * Creates the mainframe and draws it on screen.
      */ 
-    private void makeFrame()
+    private void makeFrame(Game game)
     {
         frame = new JFrame("Hangover Game");
         
@@ -38,8 +42,8 @@ public class MainFrame
         JPanel southPanelAndImagePanel = new JPanel();
         southPanelAndImagePanel.setPreferredSize(new Dimension(1160,720));
         southPanelAndImagePanel.setLayout(new BorderLayout());
-        southPanelAndImagePanel.add(new ImagePanel(), BorderLayout.NORTH);
-        southPanelAndImagePanel.add(new SouthPanel(), BorderLayout.SOUTH);
+        southPanelAndImagePanel.add(new ImagePanel(game.getPlayer()), BorderLayout.NORTH);
+        southPanelAndImagePanel.add(new SouthPanel(game), BorderLayout.SOUTH);
         
         contentPane.add(southPanelAndImagePanel, BorderLayout.EAST);
             

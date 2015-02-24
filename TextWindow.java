@@ -18,7 +18,7 @@ public class TextWindow extends JTextArea
      */
     public TextWindow()
     {
-        // initialise instance variables
+        // initialize instance variables
         makeWindow();
     }
     

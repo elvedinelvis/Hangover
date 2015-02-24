@@ -1,3 +1,8 @@
+import java.awt.*;
+import java.util.Observable;
+
+import javax.swing.*;
+
 
 /**
  * Creates a player with a name and backpack.
@@ -6,26 +11,25 @@
  * @author
  *
  */
-public class Player
+public class Player extends Observable
 {
     //Fields
     private String name;
     private Room currentRoom;
     private int maxItem;
     private Backpack backpack;
-  //private Hangometer hangometer;
+    private HangoMeter hangometer;
     
     /**
      * Constructor for objects of class Player
      */
-    public Player(String name, Room room)
+    public Player(String name)
     {
         this.name = name;
-        enterRoom(room);
         maxItem = 6;
         backpack = new Backpack();
+        hangometer = new HangoMeter();
         printWelcome();
-        //hangometer = new Hangometer();
     }
     
     //Methods
@@ -37,7 +41,6 @@ public class Player
         System.out.print("Hello " + getName());
         System.out.println(" and welcome to the Hangover game");
         System.out.println("Enter a direction to move to another room");
-        printLocationInfo();
     }
     
     /**
@@ -59,7 +62,7 @@ public class Player
     {
         if(currentRoom.testDirection(direction)) {
             enterRoom(currentRoom.getExit(direction));
-            System.out.println("You are in the " + currentRoom.getDescription());
+            System.out.println("You are " + currentRoom.getDescription());
             printLocationInfo();
         }
         else {
@@ -148,6 +151,11 @@ public class Player
     public void enterRoom(Room room)
     {
         currentRoom = room;
+        hangometer.looseLife();
+        currentRoom.GUI();
+        setChanged();
+        notifyObservers(currentRoom);
+        
     }
     
     /**
@@ -169,5 +177,18 @@ public class Player
     {
     	System.out.println(currentRoom.getItemString());
     	System.out.println(currentRoom.getExitString());
+    }
+    
+    /*private boolean isWater(String item)
+    {
+    	if(item.equals("waterbottle")) {
+    		return true;
+    	}
+    	return false;
+    }*/
+    
+    public HangoMeter getHango()
+    {
+    	return hangometer;
     }
 }

@@ -1,4 +1,7 @@
+import java.awt.*;
 import java.util.*;
+
+import javax.swing.*;
 
 /**
  * Creates a room with exits, rooms and a description.
@@ -6,22 +9,24 @@ import java.util.*;
  * @author
  *
  */
-public class Room
+public class Room extends JLabel
 {
     //Fields
     private HashMap<String, Room> exits;
     private HashMap<String, Item> items;
     private String description;
     private String name;
+    private String path;
     
     /**
      * Constructor for objects of class Room
      */
-    public Room(String name, String description)
+    public Room(String name, String description, String path)
     {
         exits = new HashMap<String, Room>();
         items = new HashMap<String, Item>();
         this.description = description;
+        this.path = path;
         this.name = name;
     }
     
@@ -168,7 +173,18 @@ public class Room
         return description;
     }
     
-    /*public void getGUI()
+    private ArrayList<Item> getItemList()
     {
-    }*/
+    	return new ArrayList<Item>(items.values());
+    }
+    
+    public void GUI()
+    {
+    	setLayout(new FlowLayout());
+    	setIcon(new ImageIcon(path));
+    	//setVisible(true);
+    	for(Item i : getItemList()) {
+    		add(i);
+    	}
+    }
 }

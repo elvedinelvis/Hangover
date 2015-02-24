@@ -14,16 +14,16 @@ public class SouthPanel extends JPanel
 {
     private JPanel navigationPanel;
     private JPanel textPanel;
-    private JPanel hangometer;
+    private JPanel hangoPanel;
     
     /**
      * Constructor for objects of class SouthPanel
      */
-    public SouthPanel()
+    public SouthPanel(Game game)
     {
-        navigationPanel = new NavigationPanel();
+        navigationPanel = new NavigationPanel(game);
         textPanel = new TextPanel();
-        hangometer = new HangometerPanel();
+        hangoPanel = new HangometerPanel(game.getHango());
         
         makePanel();
     }
@@ -37,7 +37,7 @@ public class SouthPanel extends JPanel
 
         add(navigationPanel, BorderLayout.WEST);
         add(textPanel, BorderLayout.CENTER);
-        add(hangometer, BorderLayout.EAST);
+        add(hangoPanel, BorderLayout.EAST);
         
         setVisible(true);
     }
