@@ -8,17 +8,18 @@ import java.io.IOException;
 /**
  * Write a description of class TextWindow here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author
+ * @version
  */
 public class TextWindow extends JTextArea
 {   
     /**
      * Constructor for objects of class TextWindow
      */
-    public TextWindow()
+    public TextWindow(Game game)
     {
         // initialize instance variables
+    	//append(game.getPlayer().welcome());
         makeWindow();
     }
     

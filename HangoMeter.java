@@ -6,7 +6,6 @@ public class HangoMeter extends Observable {
 	private int maxValue;
 	private int minValue;
 	private int currentValue;
-	private Player player;
 	
 	public HangoMeter()
 	{

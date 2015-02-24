@@ -182,9 +182,8 @@ public class Room extends JLabel
     {
     	setLayout(new FlowLayout());
     	setIcon(new ImageIcon(path));
-    	//setVisible(true);
     	for(Item i : getItemList()) {
-    		add(i);
+    		add(i.getButton());
     	}
     }
 }

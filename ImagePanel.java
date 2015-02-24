@@ -11,7 +11,6 @@ import java.awt.event.*;
  */
 public class ImagePanel extends JPanel implements Observer
 {
-	private JLabel label;
 	private Player player;
     
     /**
@@ -20,8 +19,7 @@ public class ImagePanel extends JPanel implements Observer
     public ImagePanel(Player player)
     {
     	this.player = player;
-    	player.addObserver(this);
-    	label = new JLabel();
+    	this.player.addObserver(this);
         makePanel();
     }
     
@@ -31,7 +29,7 @@ public class ImagePanel extends JPanel implements Observer
     private void makePanel() {
         setPreferredSize(new Dimension(1160,600));
         setLayout(new BorderLayout());
-        add(label);
+        add(player.getCurrentRoom());
         setVisible(true);
     }
 

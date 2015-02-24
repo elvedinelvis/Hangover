@@ -1,5 +1,7 @@
 import javax.swing.*;
+
 import java.awt.event.*;
+import java.util.Observable;
 
 /**
  * Creates an item with a unique name.
@@ -7,11 +9,12 @@ import java.awt.event.*;
  * @author
  *
  */
-public class Item extends JButton implements ActionListener
+public class Item extends Observable implements ActionListener
 {
     private String name;
     private int id;
     private String path;
+    private JButton b;
    
     public Item(String name, int id, String path)
     {
@@ -31,18 +34,25 @@ public class Item extends JButton implements ActionListener
     
     private void createItem()
     {
-    	setIcon(new ImageIcon(path));
-    	setText("" + id);
-    	addActionListener(this);
-    	setBorderPainted(false);
-		setContentAreaFilled(false);
-		setFocusPainted(false);
-		setOpaque(false);
+    	b = new JButton();
+    	b.setIcon(new ImageIcon(path));
+    	//b.setText("" + id);
+    	b.addActionListener(this);
+    	b.setBorderPainted(false);
+		b.setContentAreaFilled(false);
+		b.setFocusPainted(false);
+		b.setOpaque(false);
+    }
+    
+    public JButton getButton()
+    {
+    	return b;
     }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Button: " + e.getActionCommand());
-		
+		System.out.println(e.getActionCommand());
+		setChanged();
+		notifyObservers(e.getSource());
 	}
 }

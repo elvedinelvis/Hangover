@@ -7,8 +7,8 @@ import java.awt.Dimension;
 /**
  * TextPanel class which creates a panel where all the text output from the game will be printed.
  * 
- * @author Elvedin Cuskic
- * @version 4/2 - 15
+ * @author
+ * @version
  */
 public class TextPanel extends JPanel
 {
@@ -17,9 +17,9 @@ public class TextPanel extends JPanel
     /**
      * Constructor for objects of class NavigationPanel
      */
-    public TextPanel()
+    public TextPanel(Game game)
     {
-        textWindow = new TextWindow();
+        textWindow = new TextWindow(game);
         makePanel();
     }
     

@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * ItemSlotsPanel class which sets up six different item slots in this panel.
@@ -14,18 +16,20 @@ import java.util.ArrayList;
  * @author Elvedin Cuskic
  * @version 4/2 - 15
  */
-public class ItemSlotsPanel extends JPanel implements ActionListener
+public class ItemSlotsPanel extends JPanel implements Observer
 {
     //This will be added when the ItemSlot class is done.
-    //private ArrayList<ItemSlot> itemSlots;
-    private ArrayList<JButton> itemSlots;
+    private ArrayList<Item> itemSlots;
+    private Backpack backpack;
 
     /**
      * Constructor for objects of class ItemSlotsPanel
      */
-    public ItemSlotsPanel()
+    public ItemSlotsPanel(Backpack backpack)
     {
-        itemSlots = new ArrayList<>();
+    	this.backpack = backpack;
+        this.backpack.addObserver(this);
+        itemSlots = new ArrayList<>(backpack.getAllItems());
         makePanel();
     }
     
@@ -33,36 +37,25 @@ public class ItemSlotsPanel extends JPanel implements ActionListener
         setPreferredSize(new Dimension(120,720));
         setLayout(new GridLayout(6,1));
         setVisible(true);
-        
-        //These buttons will be replaced by ItemSlot objects later.
-        JButton button;
-        
-        button = new JButton("Itemslot#1");
-        itemSlots.add(button);
-        
-        button = new JButton("Itemslot#2");
-        itemSlots.add(button);
-        
-        button = new JButton("Itemslot#3");	
-        itemSlots.add(button);
-        
-        button = new JButton("Itemslot#4");
-        itemSlots.add(button);
-        
-        button = new JButton("Itemslot#5");
-        itemSlots.add(button);
-        
-        button = new JButton("Itemslot#6");
-        itemSlots.add(button);
-        
-        for(JButton itemSlot : itemSlots){
-        	itemSlot.addActionListener(this);
-            add(itemSlot);
-        }
+    }
+
+    private void updateGUI(Item item)
+    {
+    	if(itemSlots.contains(item)) {
+    		remove(item.getButton());
+    	}
+    	else {
+    		add(item.getButton());
+    	}
+    	repaint();
+    	updateUI();
     }
     
-    public void actionPerformed(ActionEvent e)
-    {
-    	System.out.println("Item: " + e.getActionCommand());
-    }
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o instanceof Backpack && arg instanceof Item) {
+			updateGUI((Item)arg);
+		}
+		
+	}
 }

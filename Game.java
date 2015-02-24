@@ -129,7 +129,7 @@ public class Game
 	        case "go":
 	            go(com[1]);
 	            break;
-	        case "take":
+	        /*case "take":
 	            pickItem(com[1]);
 	            break;
 	        case "drop":
@@ -137,7 +137,7 @@ public class Game
 	            break;
 	        case "quit":
 	            quit();
-	            break;
+	            break;*/
 	        case "backpack":
 	            backpack();
 	            break;
@@ -167,7 +167,7 @@ public class Game
      * 
      * @param item The item to be picked up.
      */
-    private void pickItem(String item)
+    /*private void pickItem(String item)
     {
     	player.pickUpItem(item);
     }
@@ -176,7 +176,7 @@ public class Game
      * 
      * @param item The item to be dropped.
      */
-    private void dropItem(String item)
+    /*private void dropItem(String item)
     {
     	player.dropItem(item);
     }

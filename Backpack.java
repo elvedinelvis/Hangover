@@ -7,7 +7,7 @@ import java.util.*;
  * @author
  *
  */
-public class Backpack
+public class Backpack extends Observable implements Observer
 {
     //Fields
     private HashMap<String, Item> itemList;
@@ -29,9 +29,16 @@ public class Backpack
      * 
      * @param item The item to be added.
      */
-    public void addItem(Item item)
+    public void addOrRemoveItem(Item item)
     {
-        itemList.put(item.getName(), item);
+    	if(itemList.containsValue(item)) {
+    		itemList.remove(item);
+    	}
+    	else {
+    		itemList.put(item.getName(), item);
+    	}
+    	setChanged();
+		notifyObservers(itemList);
     }
     
     /**
@@ -42,6 +49,8 @@ public class Backpack
     {
         if(itemList.containsKey(item)) {
             itemList.remove(item);
+            //setChanged();
+            //notifyObservers(item);
         }
     }
     
@@ -97,4 +106,17 @@ public class Backpack
     {
         return itemList.containsKey(item);
     }
+
+    public ArrayList<Item> getAllItems()
+    {
+    	return new ArrayList<Item>(itemList.values());
+    }
+    
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o instanceof Item) {
+			addOrRemoveItem((Item)arg);
+		}
+		
+	}
 }

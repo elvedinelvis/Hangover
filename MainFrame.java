@@ -37,7 +37,7 @@ public class MainFrame
         frame.setSize(1280,720);
         Container contentPane = frame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        contentPane.add(new ItemSlotsPanel(), BorderLayout.WEST);
+        contentPane.add(new ItemSlotsPanel(game.getPlayer().getBackpack()), BorderLayout.WEST);
         
         JPanel southPanelAndImagePanel = new JPanel();
         southPanelAndImagePanel.setPreferredSize(new Dimension(1160,720));

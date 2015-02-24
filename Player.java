@@ -27,20 +27,20 @@ public class Player extends Observable
     {
         this.name = name;
         maxItem = 6;
-        backpack = new Backpack();
+        //backpack = new Backpack();
         hangometer = new HangoMeter();
-        printWelcome();
+        System.out.println(welcome());
     }
     
     //Methods
     /**
      * Prints out a welcome message when starting a new game.
      */
-    private void printWelcome()
+    public String welcome()
     {
-        System.out.print("Hello " + getName());
-        System.out.println(" and welcome to the Hangover game");
-        System.out.println("Enter a direction to move to another room");
+        return "Hello " + getName() + 
+        	" and welcome to the Hangover game" + 
+        	"\nEnter a direction to move to another room";
     }
     
     /**
@@ -75,7 +75,7 @@ public class Player extends Observable
      * 
      * @param item The item to be picked up.
      */
-    public void pickUpItem(String item)
+    /*public void pickUpItem(String item)
     {
         if(currentRoom.itemExist(item)) {
             if(canBePickedUp()) {
@@ -100,7 +100,7 @@ public class Player extends Observable
      * 
      * @param item The item to be dropped.
      */
-    public void dropItem(String item)
+   /* public void dropItem(String item)
     {
         if(itemInBackpack(item)) {
             currentRoom.addItem(backpack.getItem(item));
@@ -110,7 +110,7 @@ public class Player extends Observable
         else {
         	System.out.println("You do not have that item in your backpack");
         }
-    }
+    }*/
     
     /**
      * Prints out the available commands.
@@ -190,5 +190,15 @@ public class Player extends Observable
     public HangoMeter getHango()
     {
     	return hangometer;
+    }
+    
+    public Room getCurrentRoom()
+    {
+    	return currentRoom;
+    }
+    
+    public Backpack getBackpack()
+    {
+    	return backpack;
     }
 }
