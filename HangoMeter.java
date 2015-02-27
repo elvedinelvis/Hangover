@@ -28,12 +28,21 @@ public class HangoMeter extends Observable {
 		}
 	}
 	
+	public String endOfGame()
+	{
+		return "Hangometer is down to zero % and you have not found your friend.\nGAME OVER";
+	}
+	
 	public void looseLife()
 	{
-		if((currentValue - 10) > minValue) {
+		if((currentValue - 10) >= minValue) {
 			currentValue -= 10;
 			setChanged();
 			notifyObservers(getCurrentValue());
 		}
+		/*if(currentValue == minValue) { //Game over
+			setChanged();
+			notifyObservers(endOfGame());
+		}*/
 	}
 }

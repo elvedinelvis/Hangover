@@ -17,6 +17,7 @@ public class MainFrame
 {
     private JFrame frame;
     private Game game;
+    private ItemSlotsPanel isp;
 
     /**
      * Constructor for objects of class MainFrame
@@ -24,25 +25,26 @@ public class MainFrame
     public MainFrame(Game game)
     {
     	this.game = game;
-        makeFrame(game);
+    	isp = new ItemSlotsPanel(this.game.getPlayer());
+        makeFrame(game, isp);
     }
   
     /**
      * Creates the mainframe and draws it on screen.
      */ 
-    private void makeFrame(Game game)
+    private void makeFrame(Game game, ItemSlotsPanel isp)
     {
         frame = new JFrame("Hangover Game");
         
         frame.setSize(1280,720);
         Container contentPane = frame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        contentPane.add(new ItemSlotsPanel(game.getPlayer().getBackpack()), BorderLayout.WEST);
+        contentPane.add(isp.newPanel(), BorderLayout.WEST);
         
         JPanel southPanelAndImagePanel = new JPanel();
         southPanelAndImagePanel.setPreferredSize(new Dimension(1160,720));
         southPanelAndImagePanel.setLayout(new BorderLayout());
-        southPanelAndImagePanel.add(new ImagePanel(game.getPlayer()), BorderLayout.NORTH);
+        southPanelAndImagePanel.add(new ImagePanel(game.getPlayer(), isp), BorderLayout.NORTH);
         southPanelAndImagePanel.add(new SouthPanel(game), BorderLayout.SOUTH);
         
         contentPane.add(southPanelAndImagePanel, BorderLayout.EAST);

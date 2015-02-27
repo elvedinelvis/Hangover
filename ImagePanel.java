@@ -12,14 +12,17 @@ import java.awt.event.*;
 public class ImagePanel extends JPanel implements Observer
 {
 	private Player player;
+	private ItemSlotsPanel isp;
     
     /**
      * Constructor for objects of class ImagePanel
      */
-    public ImagePanel(Player player)
+    public ImagePanel(Player player, ItemSlotsPanel isp)
     {
     	this.player = player;
+    	this.isp = isp;
     	this.player.addObserver(this);
+    	this.isp.addObserver(this);
         makePanel();
     }
     
@@ -32,13 +35,39 @@ public class ImagePanel extends JPanel implements Observer
         add(player.getCurrentRoom());
         setVisible(true);
     }
+    
+    private void addButton(JButton button)
+    {
+    	Room currentRoom = player.getCurrentRoom();
+    	currentRoom.addItem(currentRoom.getItem(button.getName()));
+    	currentRoom.removeAll();
+    	removeAll();
+    	currentRoom.updateUI();
+    	add(currentRoom);
+    	updateUI();
+    }
+    
+    private void updateRoom(JLabel label)
+    {
+    	removeAll();
+    	add(label);
+    	updateUI();
+    	
+    }
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof Player && arg instanceof Room) {
-			removeAll();
-			add((JLabel)arg);
-			updateUI();
+			updateRoom((JLabel)arg);
 		}
+		else if(o instanceof ItemSlotsPanel) {
+			if(arg instanceof JButton) {
+				addButton((JButton)arg);
+			}
+			else {
+				//repaint();
+				updateUI();
+			}
+		} 
 	}
 }

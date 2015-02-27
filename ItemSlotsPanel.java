@@ -16,45 +16,61 @@ import java.util.Observer;
  * @author Elvedin Cuskic
  * @version 4/2 - 15
  */
-public class ItemSlotsPanel extends JPanel implements Observer
+public class ItemSlotsPanel extends Observable implements Observer
 {
     //This will be added when the ItemSlot class is done.
-    private ArrayList<Item> itemSlots;
+    private JPanel panel;
     private Backpack backpack;
+    private Player player;
 
     /**
      * Constructor for objects of class ItemSlotsPanel
      */
-    public ItemSlotsPanel(Backpack backpack)
+    public ItemSlotsPanel(Player player)
     {
-    	this.backpack = backpack;
-        this.backpack.addObserver(this);
-        itemSlots = new ArrayList<>(backpack.getAllItems());
-        makePanel();
+    	this.player = player;
+    	this.backpack = player.getBackpack();
+        this.player.addObserver(this);
     }
     
     private void makePanel(){
-        setPreferredSize(new Dimension(120,720));
-        setLayout(new GridLayout(6,1));
-        setVisible(true);
+    	panel = new JPanel();
+        panel.setPreferredSize(new Dimension(120,720));
+        panel.setLayout(new GridLayout(6,1));
+        panel.setVisible(true);
     }
 
-    private void updateGUI(Item item)
+    private void updateGUI(JButton button)		//måste lägga till button i currentRoom också, dock inte en knapp utan item
     {
-    	if(itemSlots.contains(item)) {
-    		remove(item.getButton());
+    	if(backpack.itemExist(button)) {
+    		panel.remove(button);
+    		panel.updateUI();
+    		setChanged();
+    		notifyObservers(button);
+    		backpack.remove(button);
     	}
     	else {
-    		add(item.getButton());
-    	}
-    	repaint();
-    	updateUI();
+    		panel.add(button);
+    		backpack.add(button);
+    		player.getCurrentRoom().removeItem(player.getCurrentRoom().getItem(button.getName()));
+    		panel.updateUI();
+    		setChanged();
+        	notifyObservers();
+        }
+    	//panel.updateUI();
+    }
+    	
+    
+    public JPanel newPanel()
+    {
+    	makePanel();
+    	return panel;
     }
     
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof Backpack && arg instanceof Item) {
-			updateGUI((Item)arg);
+		if(o instanceof Player && arg instanceof JButton) {
+			updateGUI((JButton)arg);
 		}
 		
 	}

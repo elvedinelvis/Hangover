@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
  */
 public class Game
 {
-    //private Room currentRoom;
     private Player player;
     
     /**
@@ -41,7 +40,7 @@ public class Game
         
         outside = new Room("outside", "outside the store", path + "pic13.jpg");
         lobby = new Room("lobby", "in the lobby", path + "pic13.jpg");
-        basement = new Room("basement", "in the basement", path + "pic13.png");
+        basement = new Room("basement", "in the basement", path + "pic13.jpg");
         store = new Room("store", "in the local store", path + "pic13.jpg");
         suite = new Room("suite", "in the hotel suite", path + "pic13.jpg");
         bathroom = new Room("bathroom", "in the bathroom of the suite", path + "pic13.jpg");
@@ -82,21 +81,21 @@ public class Game
         suitcase.setExit("southwest", suite);
         
         //create items
-        key = new Item("key", 1, path + "pic1.png");
+        key = new Item("key", path + "pic1.png");
         
-        phone = new Item("phone", 2, path + "pic2.png");
+        phone = new Item("phone", path + "pic2.png");
         
-        gloves = new Item("gloves", 3, path + "pic3.png");
+        gloves = new Item("gloves", path + "pic3.png");
         
-        book = new Item("book", 4, path + "pic4.png");
+        book = new Item("book", path + "pic4.png");
         
-        booze = new Item("booze", 5, path + "pic5.png");
+        booze = new Item("booze", path + "pic5.png");
         
-        toiletpaper = new Item("toiletpaper", 6, path + "pic6.png");
+        toiletpaper = new Item("toiletpaper", path + "pic6.png");
         
-        watch = new Item("watch", 7, path + "pic7.png");
+        watch = new Item("watch", path + "pic7.png");
         
-        water = new Item("waterbottle", 0, path + "pic0.png");
+        water = new Item("waterbottle", path + "pic0.png");
         
         //add items to room
         bathroom.addItem(toiletpaper);
@@ -114,43 +113,21 @@ public class Game
         lobby.addItem(water);
         bedroom.addItem(water);
        
+        /*bathroom.GUI();
+        bedroom.GUI();
+        suite.GUI();
+        outside.GUI();
+        store.GUI();
+        lobby.GUI();
+        roof.GUI();
+        balcony.GUI();
+        suitcase.GUI();
+        storage.GUI();
+        basement.GUI();*/
+        
         
         return outside;
     }
-    
-    /**
-     * Main method that executes the user input commands.
-     * 
-     * @param com The command to be executed along with desired direction or item.
-     */
-    public void play(String[] com)
-    {
-        switch(com[0]) {
-	        case "go":
-	            go(com[1]);
-	            break;
-	        /*case "take":
-	            pickItem(com[1]);
-	            break;
-	        case "drop":
-	            dropItem(com[1]);
-	            break;
-	        case "quit":
-	            quit();
-	            break;*/
-	        case "backpack":
-	            backpack();
-	            break;
-	        case "help":
-	        	player.help();
-	        	break;
-	        default:
-	            System.out.println("Invalid command");
-	            break;
-        }
-    }
-    
-    //Methods
     
     /**
      * Moves to the room at the specified direction.
@@ -162,41 +139,6 @@ public class Game
     	player.go(direction);
     }
     
-    /**
-     * Picks up the item that is specified in the parameter.
-     * 
-     * @param item The item to be picked up.
-     */
-    /*private void pickItem(String item)
-    {
-    	player.pickUpItem(item);
-    }
-    /**
-     * Drops the the item that is specified in the parameter.
-     * 
-     * @param item The item to be dropped.
-     */
-    /*private void dropItem(String item)
-    {
-    	player.dropItem(item);
-    }
-    /**
-     * Prints out the items in the backpack.
-     */
-    private void backpack()
-    {
-        player.printBackpack();
-    }
-    
-    /**
-     * Method that is performed when a user wishes to quit the game.
-     */
-    private void quit()
-    {
-    	System.out.println("Thanks for playing " + player.getName() + ", bye!");
-    	System.exit(0);
-    }
-    
     public HangoMeter getHango()
     {
     	return player.getHango();
@@ -205,5 +147,10 @@ public class Game
     public Player getPlayer()
     {
     	return player;
+    }
+    
+    public Backpack getBackpack()
+    {
+    	return player.getBackpack();
     }
 }

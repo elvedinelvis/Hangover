@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.JButton;
+
 /**
  * Creates a backpack that is used to store items that
  * are being picked up through out the game.
@@ -7,62 +9,45 @@ import java.util.*;
  * @author
  *
  */
-public class Backpack extends Observable implements Observer
+public class Backpack extends Observable //implements Observer
 {
     //Fields
-    private HashMap<String, Item> itemList;
+    private ArrayList<JButton> items;
     /**
      * Constructor for objects of class Backpack
      */
-    public Backpack()
+    public Backpack(Player player)
     {
-        itemList = new HashMap<String, Item>();
+        items = new ArrayList<JButton>();
     }
     
     //Methods
-    public void updateGUI()
-    {
-    }
     
     /**
      * Adds an item to the backpack.
      * 
      * @param item The item to be added.
      */
-    public void addOrRemoveItem(Item item)
+    public void addOrRemoveItem(JButton button)
     {
-    	if(itemList.containsValue(item)) {
-    		itemList.remove(item);
+    	if(items.contains(button)) {
+    		items.remove(button);
     	}
     	else {
-    		itemList.put(item.getName(), item);
+    		items.add(button);
     	}
     	setChanged();
-		notifyObservers(itemList);
+    	notifyObservers(button);
     }
     
-    /**
-     * Removes the specified item from the backpack.
-     * @param item The item to be removed.
-     */
-    public void removeItem(String item)
+    public void remove(JButton button)
     {
-        if(itemList.containsKey(item)) {
-            itemList.remove(item);
-            //setChanged();
-            //notifyObservers(item);
-        }
+    	items.remove(button);
     }
     
-    /**
-     * Gets the specified item
-     * 
-     * @param item The item to get.
-     * @return The specified item.
-     */
-    public Item getItem(String item)
+    public void add(JButton button)
     {
-            return itemList.get(item);
+    	items.add(button);
     }
     
     /**
@@ -72,28 +57,7 @@ public class Backpack extends Observable implements Observer
      */
     public int getSize()
     {
-        return itemList.size();
-    }
-    
-    /**
-     * Collects a string of all the items in the backpack.
-     * 
-     * @return A string of all the items.
-     */
-    public String backpackItems()
-    {
-        StringBuilder returnString = new StringBuilder();
-        returnString.append("Items in backpack: ");
-        Set<String> items = itemList.keySet();
-        int count = items.size();
-        for(String i : items) {
-            returnString.append(i);
-            if(count > 1) {
-                returnString.append(", ");
-            }
-            count--;
-        }
-        return returnString.toString();
+        return items.size();
     }
     
     /**
@@ -102,21 +66,13 @@ public class Backpack extends Observable implements Observer
      * @param item Item to be checked.
      * @return true if item exist, otherwise false.
      */
-    public boolean itemExist(String item)
+    public boolean itemExist(JButton button)
     {
-        return itemList.containsKey(item);
+        return items.contains(button);
     }
 
-    public ArrayList<Item> getAllItems()
+    public ArrayList<JButton> getAllItems()
     {
-    	return new ArrayList<Item>(itemList.values());
+    	return items;
     }
-    
-	@Override
-	public void update(Observable o, Object arg) {
-		if(o instanceof Item) {
-			addOrRemoveItem((Item)arg);
-		}
-		
-	}
 }

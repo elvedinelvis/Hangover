@@ -1,5 +1,7 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.*;
 
@@ -11,7 +13,7 @@ import javax.swing.*;
  * @author
  *
  */
-public class Player extends Observable
+public class Player extends Observable implements Observer
 {
     //Fields
     private String name;
@@ -19,6 +21,7 @@ public class Player extends Observable
     private int maxItem;
     private Backpack backpack;
     private HangoMeter hangometer;
+    private boolean startOfGame;
     
     /**
      * Constructor for objects of class Player
@@ -27,9 +30,11 @@ public class Player extends Observable
     {
         this.name = name;
         maxItem = 6;
-        //backpack = new Backpack();
+        backpack = new Backpack(this);
         hangometer = new HangoMeter();
+        hangometer.addObserver(this);
         System.out.println(welcome());
+        startOfGame = true;
     }
     
     //Methods
@@ -70,55 +75,11 @@ public class Player extends Observable
         }
     }
     
-    /**
-     * Picks up the specified item.
-     * 
-     * @param item The item to be picked up.
-     */
-    /*public void pickUpItem(String item)
+    public void pickOrDrop(JButton button)
     {
-        if(currentRoom.itemExist(item)) {
-            if(canBePickedUp()) {
-                Item item1 = currentRoom.getItem(item);
-                backpack.addItem(item1);
-                currentRoom.removeItem(item1);
-                System.out.println("Item picked up");
-                printLocationInfo();
-             }
-            else {
-            	System.out.println("Backpack is full");
-            }
-        }
-        else {
-            System.out.println("Item does not exist");
-        }
-
-    }
-    
-    /**
-     * Drops the specified item.
-     * 
-     * @param item The item to be dropped.
-     */
-   /* public void dropItem(String item)
-    {
-        if(itemInBackpack(item)) {
-            currentRoom.addItem(backpack.getItem(item));
-            backpack.removeItem(item);
-            printLocationInfo();
-        }
-        else {
-        	System.out.println("You do not have that item in your backpack");
-        }
-    }*/
-    
-    /**
-     * Prints out the available commands.
-     */
-    public void help()
-    {
-    	System.out.println("You are " + currentRoom.getDescription());
-    	System.out.println("Available commands: go, take, backpack, quit, help");
+   		backpack.addOrRemoveItem(button);
+   		//setChanged();
+   		//notifyObservers(button);
     }
     
     /**
@@ -136,14 +97,6 @@ public class Player extends Observable
     }
     
     /**
-     * Prints out the items in the backpack.
-     */
-    public void printBackpack()
-    {
-        System.out.println(backpack.backpackItems());
-    }
-    
-    /**
      * Enters the specified room.
      * 
      * @param room The room to enter.
@@ -151,23 +104,17 @@ public class Player extends Observable
     public void enterRoom(Room room)
     {
         currentRoom = room;
-        hangometer.looseLife();
-        currentRoom.GUI();
+        
+        if(!startOfGame) {
+        	hangometer.looseLife();
+        }
+        startOfGame = false;
+        
+        for(Item i : currentRoom.getItemList()) {
+        	i.addObserver(this);
+        }
         setChanged();
         notifyObservers(currentRoom);
-        
-    }
-    
-    /**
-     * Checks if the specified item is in the backpack.
-     * 
-     * @param item The item to be tested.
-     * 
-     * @return true if item is in backpack, otherwise return false.
-     */
-    private boolean itemInBackpack(String item)
-    {
-        return backpack.itemExist(item);
     }
     
     /**
@@ -175,8 +122,7 @@ public class Player extends Observable
      */
     public void printLocationInfo()
     {
-    	System.out.println(currentRoom.getItemString());
-    	System.out.println(currentRoom.getExitString());
+    	//System.out.println(currentRoom.getExitString());
     }
     
     /*private boolean isWater(String item)
@@ -197,8 +143,36 @@ public class Player extends Observable
     	return currentRoom;
     }
     
+    public ArrayList<JButton> getBackpackItems()
+    {
+    	return backpack.getAllItems();
+    }
+
     public Backpack getBackpack()
     {
     	return backpack;
     }
+    
+    private void endOfGame(String end)
+    {
+    	System.out.println(end);
+    	System.exit(0);
+    }
+    
+    public void updateRoomGui()
+    {
+    	currentRoom.updateUI();
+    }
+    
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o instanceof Item && arg instanceof JButton) {
+			setChanged();
+			notifyObservers((JButton)arg);
+			
+		}
+		/*else if(o instanceof HangoMeter && arg instanceof String) {
+			endOfGame((String)arg);
+		}*/
+	}
 }

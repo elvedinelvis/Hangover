@@ -12,14 +12,12 @@ import java.util.Observable;
 public class Item extends Observable implements ActionListener
 {
     private String name;
-    private int id;
     private String path;
     private JButton b;
    
-    public Item(String name, int id, String path)
+    public Item(String name, String path)
     {
         this.name = name;
-        this.id = id;
         this.path = path;
         createItem();
     }
@@ -36,12 +34,12 @@ public class Item extends Observable implements ActionListener
     {
     	b = new JButton();
     	b.setIcon(new ImageIcon(path));
-    	//b.setText("" + id);
     	b.addActionListener(this);
     	b.setBorderPainted(false);
 		b.setContentAreaFilled(false);
 		b.setFocusPainted(false);
 		b.setOpaque(false);
+		b.setName(name);
     }
     
     public JButton getButton()
@@ -51,7 +49,6 @@ public class Item extends Observable implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
 		setChanged();
 		notifyObservers(e.getSource());
 	}

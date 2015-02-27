@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.List;
 import java.util.*;
 
 import javax.swing.*;
@@ -28,6 +29,8 @@ public class Room extends JLabel
         this.description = description;
         this.path = path;
         this.name = name;
+        setLayout(new FlowLayout());
+    	setIcon(new ImageIcon(path));
     }
     
     //Methods
@@ -39,6 +42,7 @@ public class Room extends JLabel
     public void addItem(Item item)
     {
         items.put(item.getName(), item);
+        add(item.getButton());
     }
     
     /**
@@ -50,6 +54,7 @@ public class Room extends JLabel
     {
         if(items.containsKey(item.getName())) {
             items.remove(item.getName());
+            remove(item.getButton());
         }
     }
     
@@ -149,18 +154,12 @@ public class Room extends JLabel
      */
     public String getExitString()
     {
-        StringBuilder returnString = new StringBuilder();
-        returnString.append("Exits: ");
-        Set<String> keyList = exits.keySet();
-        int count = exits.size();
-        for(String i : keyList) {
-            returnString.append(i);
-            if(count > 1) {
-                returnString.append(", ");
-            }
-            count--;
-        }
-        return returnString.toString();
+        StringBuilder sb = new StringBuilder(exits.size() * 2);
+        sb.append("\nNorth: " + exits.get("north").getName());
+        sb.append("\nEast: " + exits.get("east").getName());
+        sb.append("\nSouth: " + exits.get("south").getName());
+        sb.append("\nWest: " + exits.get("west").getName());
+        return sb.toString();
     }
     
     /**
@@ -173,17 +172,22 @@ public class Room extends JLabel
         return description;
     }
     
-    private ArrayList<Item> getItemList()
+    public String getName()
+    {
+    	return name;
+    }
+    
+    public ArrayList<Item> getItemList()
     {
     	return new ArrayList<Item>(items.values());
     }
     
-    public void GUI()
+    /*public void GUI()
     {
     	setLayout(new FlowLayout());
     	setIcon(new ImageIcon(path));
     	for(Item i : getItemList()) {
     		add(i.getButton());
     	}
-    }
+    }*/
 }
