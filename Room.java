@@ -43,6 +43,7 @@ public class Room extends JLabel
     {
         items.put(item.getName(), item);
         add(item.getButton());
+        updateUI();
     }
     
     /**
@@ -55,6 +56,7 @@ public class Room extends JLabel
         if(items.containsKey(item.getName())) {
             items.remove(item.getName());
             remove(item.getButton());
+            updateUI();
         }
     }
     

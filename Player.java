@@ -75,12 +75,12 @@ public class Player extends Observable implements Observer
         }
     }
     
-    public void pickOrDrop(JButton button)
+    /*public void pickOrDrop(JButton button)
     {
    		backpack.addOrRemoveItem(button);
    		//setChanged();
    		//notifyObservers(button);
-    }
+    }*/
     
     /**
      * Checks if an item can be picked up based 
@@ -143,7 +143,7 @@ public class Player extends Observable implements Observer
     	return currentRoom;
     }
     
-    public ArrayList<JButton> getBackpackItems()
+    public ArrayList<Item> getBackpackItems()
     {
     	return backpack.getAllItems();
     }
@@ -166,9 +166,15 @@ public class Player extends Observable implements Observer
     
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof Item && arg instanceof JButton) {
+		if(o instanceof Item && arg instanceof String) {
 			setChanged();
-			notifyObservers((JButton)arg);
+			if(backpack.itemExist((String)arg)) {
+				notifyObservers(backpack.getItem((String)arg));
+			}
+			else {
+				notifyObservers(currentRoom.getItem((String)arg));
+			}
+			
 			
 		}
 		/*else if(o instanceof HangoMeter && arg instanceof String) {

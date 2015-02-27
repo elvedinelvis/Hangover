@@ -50,6 +50,6 @@ public class Item extends Observable implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		setChanged();
-		notifyObservers(e.getSource());
-	}
+		notifyObservers(((JButton) e.getSource()).getName());
+		}
 }

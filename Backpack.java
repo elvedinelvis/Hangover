@@ -12,13 +12,13 @@ import javax.swing.JButton;
 public class Backpack extends Observable //implements Observer
 {
     //Fields
-    private ArrayList<JButton> items;
+    private HashMap<String, Item> items;
     /**
      * Constructor for objects of class Backpack
      */
     public Backpack(Player player)
     {
-        items = new ArrayList<JButton>();
+        items = new HashMap<String, Item>();
     }
     
     //Methods
@@ -28,26 +28,26 @@ public class Backpack extends Observable //implements Observer
      * 
      * @param item The item to be added.
      */
-    public void addOrRemoveItem(JButton button)
+   /* public void addOrRemoveItem(Item item)
     {
-    	if(items.contains(button)) {
-    		items.remove(button);
+    	if(items.contains(item)) {
+    		items.remove(item);
     	}
     	else {
-    		items.add(button);
+    		items.add(item);
     	}
     	setChanged();
-    	notifyObservers(button);
+    	notifyObservers(item);
+    }*/
+    
+    public void remove(Item item)
+    {
+    	items.remove(item);
     }
     
-    public void remove(JButton button)
+    public void add(Item item)
     {
-    	items.remove(button);
-    }
-    
-    public void add(JButton button)
-    {
-    	items.add(button);
+    	items.put(item.getName(), item);
     }
     
     /**
@@ -66,13 +66,18 @@ public class Backpack extends Observable //implements Observer
      * @param item Item to be checked.
      * @return true if item exist, otherwise false.
      */
-    public boolean itemExist(JButton button)
+    public boolean itemExist(String item)
     {
-        return items.contains(button);
+        return items.containsKey(item);
     }
 
-    public ArrayList<JButton> getAllItems()
+    public ArrayList<Item> getAllItems()
     {
-    	return items;
+    	return new ArrayList<Item>(items.values());
+    }
+    
+    public Item getItem(String item)
+    {
+    	return items.get(item);
     }
 }

@@ -40,26 +40,25 @@ public class ItemSlotsPanel extends Observable implements Observer
         panel.setVisible(true);
     }
 
-    private void updateGUI(JButton button)		//måste lägga till button i currentRoom också, dock inte en knapp utan item
+    private void updateGUI(Item item)
     {
-    	if(backpack.itemExist(button)) {
-    		panel.remove(button);
+    	if(backpack.itemExist(item.getName())) {
+    		panel.remove(item.getButton());
     		panel.updateUI();
+    		backpack.remove(item);
     		setChanged();
-    		notifyObservers(button);
-    		backpack.remove(button);
+    		notifyObservers(item);
+    		
     	}
     	else {
-    		panel.add(button);
-    		backpack.add(button);
-    		player.getCurrentRoom().removeItem(player.getCurrentRoom().getItem(button.getName()));
-    		panel.updateUI();
+    		panel.add(item.getButton());
+    		backpack.add(item);
+    		player.getCurrentRoom().removeItem(item);
     		setChanged();
         	notifyObservers();
         }
-    	//panel.updateUI();
+    	panel.updateUI();
     }
-    	
     
     public JPanel newPanel()
     {
@@ -69,8 +68,8 @@ public class ItemSlotsPanel extends Observable implements Observer
     
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof Player && arg instanceof JButton) {
-			updateGUI((JButton)arg);
+		if(o instanceof Player && arg instanceof Item) {
+			updateGUI((Item)arg);
 		}
 		
 	}

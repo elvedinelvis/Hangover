@@ -36,14 +36,12 @@ public class ImagePanel extends JPanel implements Observer
         setVisible(true);
     }
     
-    private void addButton(JButton button)
+    private void addButton(Item item)
     {
     	Room currentRoom = player.getCurrentRoom();
-    	currentRoom.addItem(currentRoom.getItem(button.getName()));
-    	currentRoom.removeAll();
-    	removeAll();
+    	currentRoom.addItem(item);
     	currentRoom.updateUI();
-    	add(currentRoom);
+    	currentRoom.updateUI();
     	updateUI();
     }
     
@@ -61,11 +59,10 @@ public class ImagePanel extends JPanel implements Observer
 			updateRoom((JLabel)arg);
 		}
 		else if(o instanceof ItemSlotsPanel) {
-			if(arg instanceof JButton) {
-				addButton((JButton)arg);
+			if(arg instanceof Item) {
+				addButton((Item)arg);
 			}
 			else {
-				//repaint();
 				updateUI();
 			}
 		} 
