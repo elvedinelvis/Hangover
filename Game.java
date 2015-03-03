@@ -30,26 +30,26 @@ public class Game
     private Room creategame()
     {
         Room outside, lobby, roof, basement, store, suite, bathroom, bedroom,
-                    balcony, suitcase, storage;
-        Item watch, toiletpaper, book, booze, gloves, phone, key, water;
+                    balcony, suitcase, passage;
+        Item watch, toiletpaper, book, booze, gloves, phone, key,
+                    water1, water2, water3, water4, water5, water6;
         
         //create rooms
-        String path = "/Users/Griffith/Skolan/"
-        		+ "Objektorienterade applikationer/eclipsework"
-        		+ "/images/";
+        String path = System.getProperty("user.dir");
         
-        outside = new Room("outside", "outside the store", path + "pic13.jpg");
-        lobby = new Room("lobby", "in the lobby", path + "pic13.jpg");
-        basement = new Room("basement", "in the basement", path + "pic13.jpg");
-        store = new Room("store", "in the local store", path + "pic13.jpg");
-        suite = new Room("suite", "in the hotel suite", path + "pic13.jpg");
-        bathroom = new Room("bathroom", "in the bathroom of the suite", path + "pic13.jpg");
-        bedroom = new Room("bedroom", "in the bedroom of the suite", path + "pic13.jpg");
-        balcony = new Room("balcony", "on the balony of the suite", path + "pic13.jpg");
-        suitcase = new Room("suitcase", "suitcase", path + "pic13.jpg");
-        roof = new Room("rooftop", "on the rooftop of the hotel", path + "pic13.jpg");
-        storage = new Room("storage room", "in the storage room", path + "pic13.jpg");
+        outside = new Room("outside", "outside the hotel and store", path + "/Images/Rooms/outside.jpg");
+        lobby = new Room("lobby", "in the lobby", path + "/Images/Rooms/lobby.jpg");
+        basement = new Room("basement", "in the basement", path + "/Images/Rooms/basement.jpg");
+        store = new Room("store", "in the local store", path + "/Images/Rooms/store.jpg");
+        suite = new Room("suite", "in the hotel suite", path + "/Images/Rooms/suite.jpg");
+        bathroom = new Room("bathroom", "in the bathroom of the suite", path + "/Images/Rooms/bathroom.jpg");
+        bedroom = new Room("bedroom", "in the bedroom of the suite", path + "/Images/Rooms/bedroom.jpg");
+        balcony = new Room("balcony", "on the balcony of the suite", path + "/Images/Rooms/balcony.jpg");
+        suitcase = new Room("suitcase", "looking inside a suitcase", path + "/Images/Rooms/suitcase.jpg");
+        roof = new Room("rooftop", "on the rooftop of the hotel", path + "/Images/Rooms/roof.jpg");
+        passage = new Room("passage", "in the passage", path + "/Images/Rooms/passage.jpg");
         
+        //connect rooms with their corresponding exits
         outside.setExit("north", lobby);
         outside.setExit("west", roof);
         outside.setExit("south", store);
@@ -59,59 +59,67 @@ public class Game
         lobby.setExit("south", outside);
         lobby.setExit("west", roof);
         
-        basement.setExit("north", storage);
+        basement.setExit("north", passage);
         basement.setExit("south", lobby);
         
-        storage.setExit("south", basement);
+        passage.setExit("south", basement);
         
         store.setExit("north", outside);
         
-        suite.setExit("north", balcony);
+        suite.setExit("south", suitcase);
         suite.setExit("east", bathroom);
-        suite.setExit("south", bedroom);
+        suite.setExit("north", bedroom);
         suite.setExit("west", lobby);
-        suite.setExit("northeast", suitcase);
         
         roof.setExit("east", lobby);
         roof.setExit("south", outside);
         
         bathroom.setExit("west", suite);
-        bedroom.setExit("north", suite);
-        balcony.setExit("south", suite);
-        suitcase.setExit("southwest", suite);
+        
+        bedroom.setExit("south", suite);
+        bedroom.setExit("north", balcony);
+        
+        balcony.setExit("south", bedroom);
+        
+        suitcase.setExit("north", suite);
         
         //create items
-        key = new Item("key", path + "pic1.png");
+        key = new Item("key", path + "/Images/Items/key.png");
         
-        phone = new Item("phone", path + "pic2.png");
+        phone = new Item("phone", path + "/Images/Items/phone.png");
         
-        gloves = new Item("gloves", path + "pic3.png");
+        gloves = new Item("gloves", path + "/Images/Items/gloves.png");
         
-        book = new Item("book", path + "pic4.png");
+        book = new Item("book", path + "/Images/Items/book.png");
         
-        booze = new Item("booze", path + "pic5.png");
+        booze = new Item("booze", path + "/Images/Items/booze.png");
         
-        toiletpaper = new Item("toiletpaper", path + "pic6.png");
+        toiletpaper = new Item("toiletpaper", path + "/Images/Items/toiletpaper.png");
         
-        watch = new Item("watch", path + "pic7.png");
+        watch = new Item("watch", path + "/Images/Items/watch.png");
         
-        water = new Item("waterbottle", path + "pic0.png");
+        water1 = new Item("waterbottle1", path + "/Images/Items/waterbottle.png");
+        water2 = new Item("waterbottle2", path + "/Images/Items/waterbottle.png");
+        water3 = new Item("waterbottle3", path + "/Images/Items/waterbottle.png");
+        water4 = new Item("waterbottle4", path + "/Images/Items/waterbottle.png");
+        water5 = new Item("waterbottle5", path + "/Images/Items/waterbottle.png");
+        water6 = new Item("waterbottle6", path + "/Images/Items/waterbottle.png");
         
         //add items to room
         bathroom.addItem(toiletpaper);
         bedroom.addItem(book);
-        bedroom.addItem(watch);
-        suite.addItem(gloves);
+        balcony.addItem(gloves);
         suite.addItem(booze);
-        suite.addItem(key);
-        outside.addItem(phone);
+        basement.addItem(key);
+        suitcase.addItem(watch);
+        store.addItem(phone);
         
-        bathroom.addItem(water);
-        suite.addItem(water);
-        bedroom.addItem(water);
-        outside.addItem(water);
-        lobby.addItem(water);
-        bedroom.addItem(water);
+        bathroom.addItem(water1);
+        suite.addItem(water2);
+        store.addItem(water3);
+        balcony.addItem(water4);
+        lobby.addItem(water5);
+        roof.addItem(water6);
        
         /*bathroom.GUI();
         bedroom.GUI();
@@ -136,21 +144,21 @@ public class Game
      */
     public void go(String direction)
     {
-    	player.go(direction);
+        player.go(direction);
     }
     
     public HangoMeter getHango()
     {
-    	return player.getHango();
+        return player.getHango();
     }
     
     public Player getPlayer()
     {
-    	return player;
+        return player;
     }
     
     public Backpack getBackpack()
     {
-    	return player.getBackpack();
+        return player.getBackpack();
     }
 }

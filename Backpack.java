@@ -13,11 +13,16 @@ public class Backpack extends Observable //implements Observer
 {
     //Fields
     private HashMap<String, Item> items;
+    //private Player backpackOwner;
+    private int maxItems;
+    
     /**
      * Constructor for objects of class Backpack
      */
-    public Backpack(Player player)
+    //public Backpack(Player player)
+    public Backpack()
     {
+        maxItems = 6;
         items = new HashMap<String, Item>();
     }
     
@@ -30,24 +35,24 @@ public class Backpack extends Observable //implements Observer
      */
    /* public void addOrRemoveItem(Item item)
     {
-    	if(items.contains(item)) {
-    		items.remove(item);
-    	}
-    	else {
-    		items.add(item);
-    	}
-    	setChanged();
-    	notifyObservers(item);
+        if(items.contains(item)) {
+            items.remove(item);
+        }
+        else {
+            items.add(item);
+        }
+        setChanged();
+        notifyObservers(item);
     }*/
     
     public void remove(Item item)
     {
-    	items.remove(item);
+        items.remove(item.getName());
     }
     
     public void add(Item item)
     {
-    	items.put(item.getName(), item);
+        items.put(item.getName(), item);
     }
     
     /**
@@ -58,6 +63,16 @@ public class Backpack extends Observable //implements Observer
     public int getSize()
     {
         return items.size();
+    }
+    
+    /**
+     * Gets max amount of items in this backpack.
+     * 
+     * @return MaxItems in backpack.
+     */
+    public int getMaxItems()
+    {
+        return maxItems;
     }
     
     /**
@@ -73,11 +88,11 @@ public class Backpack extends Observable //implements Observer
 
     public ArrayList<Item> getAllItems()
     {
-    	return new ArrayList<Item>(items.values());
+        return new ArrayList<Item>(items.values());
     }
     
     public Item getItem(String item)
     {
-    	return items.get(item);
+        return items.get(item);
     }
 }

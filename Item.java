@@ -51,5 +51,5 @@ public class Item extends Observable implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		setChanged();
 		notifyObservers(((JButton) e.getSource()).getName());
-		}
+    }
 }

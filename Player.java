@@ -18,7 +18,6 @@ public class Player extends Observable implements Observer
     //Fields
     private String name;
     private Room currentRoom;
-    private int maxItem;
     private Backpack backpack;
     private HangoMeter hangometer;
     private boolean startOfGame;
@@ -29,11 +28,10 @@ public class Player extends Observable implements Observer
     public Player(String name)
     {
         this.name = name;
-        maxItem = 6;
-        backpack = new Backpack(this);
+        backpack = new Backpack();
         hangometer = new HangoMeter();
         hangometer.addObserver(this);
-        System.out.println(welcome());
+        //System.out.println(welcome());
         startOfGame = true;
     }
     
@@ -41,11 +39,11 @@ public class Player extends Observable implements Observer
     /**
      * Prints out a welcome message when starting a new game.
      */
-    public String welcome()
+    public void welcome()
     {
-        return "Hello " + getName() + 
-        	" and welcome to the Hangover game" + 
-        	"\nEnter a direction to move to another room";
+        System.out.println( "Hello " + getName() + 
+        	" and welcome to the Hangover game!" + 
+        	"\n\nPress a direction to move to another area");
     }
     
     /**
@@ -90,7 +88,7 @@ public class Player extends Observable implements Observer
      */
     public boolean canBePickedUp()
     {
-        if(backpack.getSize() < maxItem) {
+        if(backpack.getSize() < backpack.getMaxItems()) {
             return true;
         }
         return false;

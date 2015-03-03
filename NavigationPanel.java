@@ -24,7 +24,7 @@ public class NavigationPanel extends JPanel
     public NavigationPanel(Game game)
     {
     	this.game = game;
-    	createButtons(game);
+    	createButtons();
         makePanel();
     }
     
@@ -34,6 +34,8 @@ public class NavigationPanel extends JPanel
     private void makePanel(){
         setPreferredSize(new Dimension(160,120));
         setLayout(new BorderLayout());
+        setBackground(Color.black);
+        
         
         add(north, BorderLayout.NORTH);
         add(south, BorderLayout.SOUTH);
@@ -43,30 +45,40 @@ public class NavigationPanel extends JPanel
         setVisible(true);
     }
     
-    private void createButtons(Game game)
+    private void createButtons()
     {
-    	north = new JButton("North"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowNorth.png")*/);
-        north.addActionListener(new ActionListener(){			
+    	String path = System.getProperty("user.dir");
+    	
+        north = new JButton();
+        north.setIcon(new ImageIcon(path + "/Images/Gui/arrowNorth.jpg"));
+        north.setBorder(null);
+    	north.addActionListener(new ActionListener(){			
         	public void actionPerformed(ActionEvent e) {
 				game.go("north");
         	}
         });
         
-        south = new JButton("South"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowSouth.png")*/);
+        south = new JButton();
+        south.setIcon(new ImageIcon(path + "/Images/Gui/arrowSouth.jpg"));
+        south.setBorder(null);
         south.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e) {
             	game.go("south");
         	}
         });
         
-        west = new JButton("West"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowWest.png")*/);
+        west = new JButton();
+        west.setIcon(new ImageIcon(path + "/Images/Gui/arrowWest.jpg"));
+        west.setBorder(null);
         west.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e) {
             	game.go("west");
         	}
         });
         
-        east = new JButton("East"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowEast.png")*/);
+        east = new JButton();
+        east.setIcon(new ImageIcon(path + "/Images/Gui/arrowEast.jpg"));
+        east.setBorder(null);
         east.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e) {
             	game.go("east");	

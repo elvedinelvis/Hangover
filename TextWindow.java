@@ -1,6 +1,9 @@
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+
+//import java.awt.Color;
+
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.IOException;
@@ -27,7 +30,7 @@ public class TextWindow extends JTextArea
     {
         setEditable(false);
         setVisible(true);
-        
+        //setBackground(Color.black);
         //Needed to make every text printed to the console, printed to this textarea instead.
         redirectSystemStreams();
     }

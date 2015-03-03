@@ -22,6 +22,7 @@ public class HangometerPanel extends JPanel implements Observer
     public HangometerPanel(HangoMeter hangometer)
     {
     	label = new JLabel("100%");
+    	label.setForeground(Color.white);
     	this.hangometer = hangometer;
     	hangometer.addObserver(this);
         makePanel();
@@ -35,9 +36,10 @@ public class HangometerPanel extends JPanel implements Observer
     	panel.setLayout(new FlowLayout());
         setPreferredSize(new Dimension(100,120));
         setLayout(new BorderLayout());
+        panel.setBackground(Color.black);
         panel.add(label);
         add(panel);
-        setVisible(true);
+        panel.setVisible(true);
         
     }
 
