@@ -38,7 +38,7 @@ public class ItemSlotsPanel extends Observable implements Observer
     
     private void makePanel(){    
         //Path to the background image for the ItemSlotsPanel
-        //String path = System.getProperty("user.dir") + "/Images/Gui/Itembarwhole.jpg";
+        String path = System.getProperty("user.dir") + "/Images/Gui/Itembarwhole.jpg";
         
         panel = new JPanel();
         

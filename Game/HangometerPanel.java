@@ -21,7 +21,7 @@ public class HangometerPanel extends JPanel implements Observer
      */
     public HangometerPanel(HangoMeter hangometer)
     {
-    	label = new JLabel("100%");
+    	label = new JLabel("100 %");
     	label.setForeground(Color.white);
     	this.hangometer = hangometer;
     	hangometer.addObserver(this);
@@ -45,8 +45,8 @@ public class HangometerPanel extends JPanel implements Observer
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof HangoMeter && arg instanceof String) {
-			label.setText((String)arg);
+		if(o instanceof HangoMeter && arg instanceof Integer) {
+			label.setText("" + (Integer)arg + " %");
 		}
 		
 	}

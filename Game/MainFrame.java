@@ -54,4 +54,8 @@ public class MainFrame
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    
+    public JFrame getFrame() {
+    	return frame;
+    }
 }

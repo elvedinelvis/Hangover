@@ -6,6 +6,9 @@ public class Main {
 		Player player = new Player("Chalmerist");
 	    MainFrame mainframe = new MainFrame(new Game(player));
 		player.welcome();
-		while(true);
+		
+		while(!player.getEndGame()) {
+			
+		}
 	}
 }

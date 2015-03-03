@@ -37,7 +37,7 @@ public class Game
         //create rooms
         String path = System.getProperty("user.dir");
         
-        outside = new Room("outside", "outside the hotel and store", path + "/Images/Rooms/outside.jpg");
+        outside = new Room("outside", "outside the hotel and store", path + "//Images//Rooms//outside.jpg");
         lobby = new Room("lobby", "in the lobby", path + "/Images/Rooms/lobby.jpg");
         basement = new Room("basement", "in the basement", path + "/Images/Rooms/basement.jpg");
         store = new Room("store", "in the local store", path + "/Images/Rooms/store.jpg");

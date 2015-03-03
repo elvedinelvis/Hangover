@@ -41,7 +41,6 @@ public class ImagePanel extends JPanel implements Observer
     	Room currentRoom = player.getCurrentRoom();
     	currentRoom.addItem(item);
     	currentRoom.updateUI();
-    	currentRoom.updateUI();
     	updateUI();
     }
     

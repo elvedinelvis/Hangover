@@ -21,6 +21,7 @@ public class Player extends Observable implements Observer
     private Backpack backpack;
     private HangoMeter hangometer;
     private boolean startOfGame;
+    private boolean endGame;
     
     /**
      * Constructor for objects of class Player
@@ -31,8 +32,8 @@ public class Player extends Observable implements Observer
         backpack = new Backpack();
         hangometer = new HangoMeter();
         hangometer.addObserver(this);
-        //System.out.println(welcome());
         startOfGame = true;
+        endGame = false;
     }
     
     //Methods
@@ -44,6 +45,7 @@ public class Player extends Observable implements Observer
         System.out.println( "Hello " + getName() + 
         	" and welcome to the Hangover game!" + 
         	"\n\nPress a direction to move to another area");
+        printLocationInfo();
     }
     
     /**
@@ -72,13 +74,6 @@ public class Player extends Observable implements Observer
             System.out.println("No room in that direction or invalid command");
         }
     }
-    
-    /*public void pickOrDrop(JButton button)
-    {
-   		backpack.addOrRemoveItem(button);
-   		//setChanged();
-   		//notifyObservers(button);
-    }*/
     
     /**
      * Checks if an item can be picked up based 
@@ -120,16 +115,9 @@ public class Player extends Observable implements Observer
      */
     public void printLocationInfo()
     {
-    	//System.out.println(currentRoom.getExitString());
+    	System.out.println(currentRoom.getExitString());
+    	
     }
-    
-    /*private boolean isWater(String item)
-    {
-    	if(item.equals("waterbottle")) {
-    		return true;
-    	}
-    	return false;
-    }*/
     
     public HangoMeter getHango()
     {
@@ -154,7 +142,13 @@ public class Player extends Observable implements Observer
     private void endOfGame(String end)
     {
     	System.out.println(end);
+    	this.endGame = true;
     	System.exit(0);
+    }
+    
+    public boolean getEndGame()
+    {
+    	return endGame;
     }
     
     public void updateRoomGui()
@@ -171,12 +165,10 @@ public class Player extends Observable implements Observer
 			}
 			else {
 				notifyObservers(currentRoom.getItem((String)arg));
-			}
-			
-			
+			}	
 		}
-		/*else if(o instanceof HangoMeter && arg instanceof String) {
+		else if(o instanceof HangoMeter && arg instanceof String) {
 			endOfGame((String)arg);
-		}*/
+		}
 	}
 }

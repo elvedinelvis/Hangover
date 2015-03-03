@@ -14,9 +14,9 @@ public class HangoMeter extends Observable {
         currentValue = 100;
     }
     
-    public String getCurrentValue()
+    public int getCurrentValue()
     {
-        return currentValue + "%";
+        return currentValue;
     }
     
     public void addLife()
@@ -40,14 +40,14 @@ public class HangoMeter extends Observable {
     
     public void looseLife()
     {
-        if((currentValue - 1) >= minValue) {
-            currentValue -= 1;
+        if((currentValue - 20) >= minValue) {
+            currentValue -= 20;
             setChanged();
-            notifyObservers(getCurrentValue());
+            notifyObservers(currentValue);
         }
-        /*if(currentValue == minValue) { //Game over
+        if(currentValue == minValue) { //Game over
             setChanged();
             notifyObservers(endOfGame());
-        }*/
+        }
     }
 }

@@ -89,27 +89,6 @@ public class Room extends JLabel
     }
     
     /**
-     * Collects a string of all the items in the room.
-     * 
-     * @return A string of all the items.
-     */
-    public String getItemString()
-    {
-        StringBuilder returnString = new StringBuilder();
-        returnString.append("Items: ");
-        Set<String> itemList = items.keySet();
-        int count = itemList.size();
-        for(String i : itemList) {
-            returnString.append(i);
-            if(count > 1) {
-                returnString.append(", ");
-            }
-            count--;
-        }
-        return returnString.toString();
-    }
-    
-    /**
      * Connects/sets the exits of the room. I.e, creating the map.
      * 
      * @param name The name of the room.
@@ -156,11 +135,18 @@ public class Room extends JLabel
      */
     public String getExitString()
     {
-        StringBuilder sb = new StringBuilder(exits.size() * 2);
-        sb.append("\nNorth: " + exits.get("north").getName());
-        sb.append("\nEast: " + exits.get("east").getName());
-        sb.append("\nSouth: " + exits.get("south").getName());
-        sb.append("\nWest: " + exits.get("west").getName());
+        StringBuilder sb = new StringBuilder(1000);
+        Set<String> keys = exits.keySet();
+        
+        for(String exit : keys) {
+            //Appends the string with the exit, changes first letter to an uppercase.
+            sb.append(Character.toString(exit.charAt(0)).toUpperCase()+exit.substring(1));
+            sb.append(": ");
+            //Appends the string with the exitroom, changes first letter to an uppercase.
+            sb.append(Character.toString(exits.get(exit).getName().charAt(0)).toUpperCase()
+                      +exits.get(exit).getName().substring(1));
+            sb.append("      ");
+        }
         return sb.toString();
     }
     
