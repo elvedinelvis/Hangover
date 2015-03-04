@@ -18,17 +18,29 @@ public class Room extends JLabel
     private String description;
     private String name;
     private String path;
+<<<<<<< HEAD:Game/Room.java
+=======
+    private boolean locked;
+>>>>>>> master:Room.java
     
     /**
      * Constructor for objects of class Room
      */
+<<<<<<< HEAD:Game/Room.java
     public Room(String name, String description, String path)
+=======
+    public Room(String name, String description, boolean locked, String path)
+>>>>>>> master:Room.java
     {
         exits = new HashMap<String, Room>();
         items = new HashMap<String, Item>();
         this.description = description;
         this.path = path;
         this.name = name;
+<<<<<<< HEAD:Game/Room.java
+=======
+        this.locked = locked;
+>>>>>>> master:Room.java
         setLayout(new FlowLayout());
     	setIcon(new ImageIcon(path));
     }
@@ -160,11 +172,42 @@ public class Room extends JLabel
         return description;
     }
     
+<<<<<<< HEAD:Game/Room.java
+=======
+    /**
+     * Gets the lockstatus of the room.
+     * 
+     * @return locked.
+     */
+    public boolean getLocked()
+    {
+    	return locked;
+    }
+    
+    /**
+     * Gets the name of the room.
+     * 
+     * @return name.
+     */
+>>>>>>> master:Room.java
     public String getName()
     {
     	return name;
     }
     
+<<<<<<< HEAD:Game/Room.java
+=======
+    /**
+     * Sets the lockstatus of the room.
+     * 
+     * @param lockStatus.
+     */
+    public void setLocked(boolean lockStatus)
+    {
+    	locked = lockStatus;
+    }
+    
+>>>>>>> master:Room.java
     public ArrayList<Item> getItemList()
     {
     	return new ArrayList<Item>(items.values());
