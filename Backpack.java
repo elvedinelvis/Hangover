@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.JButton;
+
 /**
  * Creates a backpack that is used to store items that
  * are being picked up through out the game.
@@ -7,53 +9,50 @@ import java.util.*;
  * @author
  *
  */
-public class Backpack
+public class Backpack extends Observable //implements Observer
 {
     //Fields
-    private HashMap<String, Item> itemList;
+    private HashMap<String, Item> items;
+    //private Player backpackOwner;
+    private int maxItems;
+    
     /**
      * Constructor for objects of class Backpack
      */
+    //public Backpack(Player player)
     public Backpack()
     {
-        itemList = new HashMap<String, Item>();
+        maxItems = 6;
+        items = new HashMap<String, Item>();
     }
     
     //Methods
-    public void updateGUI()
-    {
-    }
     
     /**
      * Adds an item to the backpack.
      * 
      * @param item The item to be added.
      */
-    public void addItem(Item item)
+   /* public void addOrRemoveItem(Item item)
     {
-        itemList.put(item.getName(), item);
-    }
-    
-    /**
-     * Removes the specified item from the backpack.
-     * @param item The item to be removed.
-     */
-    public void removeItem(String item)
-    {
-        if(itemList.containsKey(item)) {
-            itemList.remove(item);
+        if(items.contains(item)) {
+            items.remove(item);
         }
+        else {
+            items.add(item);
+        }
+        setChanged();
+        notifyObservers(item);
+    }*/
+    
+    public void remove(Item item)
+    {
+        items.remove(item.getName());
     }
     
-    /**
-     * Gets the specified item
-     * 
-     * @param item The item to get.
-     * @return The specified item.
-     */
-    public Item getItem(String item)
+    public void add(Item item)
     {
-            return itemList.get(item);
+        items.put(item.getName(), item);
     }
     
     /**
@@ -63,28 +62,17 @@ public class Backpack
      */
     public int getSize()
     {
-        return itemList.size();
+        return items.size();
     }
     
     /**
-     * Collects a string of all the items in the backpack.
+     * Gets max amount of items in this backpack.
      * 
-     * @return A string of all the items.
+     * @return MaxItems in backpack.
      */
-    public String backpackItems()
+    public int getMaxItems()
     {
-        StringBuilder returnString = new StringBuilder();
-        returnString.append("Items in backpack: ");
-        Set<String> items = itemList.keySet();
-        int count = items.size();
-        for(String i : items) {
-            returnString.append(i);
-            if(count > 1) {
-                returnString.append(", ");
-            }
-            count--;
-        }
-        return returnString.toString();
+        return maxItems;
     }
     
     /**
@@ -95,6 +83,16 @@ public class Backpack
      */
     public boolean itemExist(String item)
     {
-        return itemList.containsKey(item);
+        return items.containsKey(item);
+    }
+
+    public ArrayList<Item> getAllItems()
+    {
+        return new ArrayList<Item>(items.values());
+    }
+    
+    public Item getItem(String item)
+    {
+        return items.get(item);
     }
 }

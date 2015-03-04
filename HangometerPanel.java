@@ -1,7 +1,7 @@
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * HangometerPanel class which creates a panel where the Hangometer will be placed.
@@ -9,18 +9,21 @@ import java.awt.Dimension;
  * @author Elvedin Cuskic
  * @version 4/2 - 15
  */
-public class HangometerPanel extends JPanel
+public class HangometerPanel extends JPanel implements Observer
 {
     //This is the variable where the final Hangometer will be placed.
-    //private Hangometer hangometer;
-    private JButton hangometer;
+    private JLabel label;
+    private HangoMeter hangometer;
     
     /**
      * Constructor for objects of class HangometerPanel
      */
-    public HangometerPanel()
+    public HangometerPanel(HangoMeter hangometer)
     {
-        hangometer = new JButton("Hangometer");
+        label = new JLabel("100 %", SwingConstants.CENTER);
+        label.setForeground(Color.white);
+        this.hangometer = hangometer;
+        hangometer.addObserver(this);
         makePanel();
     }
     
@@ -30,7 +33,16 @@ public class HangometerPanel extends JPanel
     private void makePanel(){
         setPreferredSize(new Dimension(100,120));
         setLayout(new BorderLayout());
-        add(hangometer);
+        setBackground(Color.black);
+        add(label);
         setVisible(true);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(o instanceof HangoMeter && arg instanceof Integer) {
+            label.setText("" + (Integer)arg + " %");
+        }
+        
     }
 }

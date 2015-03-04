@@ -7,23 +7,23 @@ import java.awt.Dimension;
  * SouthPanel class which holds and handles the three different subpanels.
  * NavigationPanel, TextPanel and Hangometer is included in this panel.
  * 
- * @author Elvedin Cuskic
- * @version 4/2 - 15
+ * @author
+ * @version
  */
 public class SouthPanel extends JPanel
 {
     private JPanel navigationPanel;
     private JPanel textPanel;
-    private JPanel hangometer;
+    private JPanel hangoPanel;
     
     /**
      * Constructor for objects of class SouthPanel
      */
-    public SouthPanel()
+    public SouthPanel(Game game)
     {
-        navigationPanel = new NavigationPanel();
-        textPanel = new TextPanel();
-        hangometer = new HangometerPanel();
+        navigationPanel = new NavigationPanel(game);
+        textPanel = new TextPanel(game);
+        hangoPanel = new HangometerPanel(game.getHango());
         
         makePanel();
     }
@@ -37,7 +37,7 @@ public class SouthPanel extends JPanel
 
         add(navigationPanel, BorderLayout.WEST);
         add(textPanel, BorderLayout.CENTER);
-        add(hangometer, BorderLayout.EAST);
+        add(hangoPanel, BorderLayout.EAST);
         
         setVisible(true);
     }

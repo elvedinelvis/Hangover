@@ -1,6 +1,9 @@
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+
+//import java.awt.Color;
+
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.IOException;
@@ -8,17 +11,18 @@ import java.io.IOException;
 /**
  * Write a description of class TextWindow here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author
+ * @version
  */
 public class TextWindow extends JTextArea
 {   
     /**
      * Constructor for objects of class TextWindow
      */
-    public TextWindow()
+    public TextWindow(Game game)
     {
-        // initialise instance variables
+        // initialize instance variables
+    	//append(game.getPlayer().welcome());
         makeWindow();
     }
     
@@ -26,7 +30,7 @@ public class TextWindow extends JTextArea
     {
         setEditable(false);
         setVisible(true);
-        
+        //setBackground(Color.black);
         //Needed to make every text printed to the console, printed to this textarea instead.
         redirectSystemStreams();
     }

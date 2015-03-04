@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 
 /**
  * Creates the game, i.e the rooms, exits and items.
@@ -9,15 +11,15 @@
  */
 public class Game
 {
-    //private Room currentRoom;
-    private Player player1;
+    private Player player;
     
     /**
      * Constructor for objects of class Game
      */
-    public Game()
+    public Game(Player player)
     {
-        player1 = new Player("Kim K", creategame());
+        this.player = player;
+        this.player.enterRoom(creategame());
     }
     
     /**
@@ -28,22 +30,27 @@ public class Game
     private Room creategame()
     {
         Room outside, lobby, roof, basement, store, suite, bathroom, bedroom,
-                    balcony, suitcase, storage;
-        Item watch, toiletpaper, book, booze, gloves, phone;
+                    balcony, suitcase, passage;
+        Item watch, toiletpaper, book, booze, gloves, phone, key,
+                    water1, water2, water3, water4, water5, water6,
+                    note1, note2, note3, note4;
         
         //create rooms
-        outside = new Room("outside", "outside the store");
-        lobby = new Room("lobby", "in the lobby");
-        basement = new Room("basement", "in the basement");
-        store = new Room("store", "in the local store");
-        suite = new Room("suite", "in the hotel suite");
-        bathroom = new Room("bathroom", "in the bathroom of the suite");
-        bedroom = new Room("bedroom", "in the bedroom of the suite");
-        balcony = new Room("balcony", "on the balony of the suite");
-        suitcase = new Room("suitcase", "suitcase");
-        roof = new Room("rooftop", "on the rooftop of the hotel");
-        storage = new Room("storage room", "in the storage room");
+        String path = System.getProperty("user.dir");
         
+        outside = new Room("outside", "outside the hotel and store", false, path + "//Images//Rooms//outside.jpg");
+        lobby = new Room("lobby", "in the lobby", false, path + "/Images/Rooms/lobby.jpg");
+        basement = new Room("basement", "in the basement", false, path + "/Images/Rooms/basement.jpg");
+        store = new Room("store", "in the local store", false, path + "/Images/Rooms/store.jpg");
+        suite = new Room("suite", "in the hotel suite", true, path + "/Images/Rooms/suite.jpg");
+        bathroom = new Room("bathroom", "in the bathroom of the suite", false, path + "/Images/Rooms/bathroom.jpg");
+        bedroom = new Room("bedroom", "in the bedroom of the suite", false, path + "/Images/Rooms/bedroom.jpg");
+        balcony = new Room("balcony", "on the balcony of the suite", false, path + "/Images/Rooms/balcony.jpg");
+        suitcase = new Room("suitcase", "looking inside a suitcase", true, path + "/Images/Rooms/suitcase.jpg");
+        roof = new Room("rooftop", "on the rooftop of the hotel", true, path + "/Images/Rooms/roof.jpg");
+        passage = new Room("passage", "in the passage", true, path + "/Images/Rooms/passage.jpg");
+        
+        //connect rooms with their corresponding exits
         outside.setExit("north", lobby);
         outside.setExit("west", roof);
         outside.setExit("south", store);
@@ -53,120 +60,103 @@ public class Game
         lobby.setExit("south", outside);
         lobby.setExit("west", roof);
         
-        basement.setExit("north", storage);
+        basement.setExit("north", passage);
         basement.setExit("south", lobby);
+        
+        passage.setExit("south", basement);
         
         store.setExit("north", outside);
         
-        suite.setExit("north", balcony);
+        suite.setExit("south", suitcase);
         suite.setExit("east", bathroom);
-        suite.setExit("south", bedroom);
+        suite.setExit("north", bedroom);
         suite.setExit("west", lobby);
-        suite.setExit("northeast", suitcase);
         
         roof.setExit("east", lobby);
         roof.setExit("south", outside);
         
         bathroom.setExit("west", suite);
-        bedroom.setExit("north", suite);
-        balcony.setExit("south", suite);
-        suitcase.setExit("southwest", suite);
+        
+        bedroom.setExit("south", suite);
+        bedroom.setExit("north", balcony);
+        
+        balcony.setExit("south", bedroom);
+        
+        suitcase.setExit("north", suite);
         
         //create items
-        toiletpaper = new Item("toiletpaper");
-        book = new Item("book");
-        gloves = new Item("gloves");
-        booze = new Item("booze");
-        phone = new Item("phone");
-        watch = new Item("watch");
+        key = new Item("key", "A silver key", path + "/Images/Items/key.png");
+        
+        phone = new Item("phone", "A mobilephone", path + "/Images/Items/phone.png");
+        
+        gloves = new Item("gloves", "A pair of gloves", path + "/Images/Items/gloves.png");
+        
+        book = new Item("book", "A book", path + "/Images/Items/book.png");
+        
+        booze = new Item("booze", "A glass of booze", path + "/Images/Items/booze.png");
+        
+        toiletpaper = new Item("toiletpaper", "A toiletpaper roll", path + "/Images/Items/toiletpaper.png");
+        
+        watch = new Item("watch", "A watch", path + "/Images/Items/watch.png");
+        
+        water1 = new Item("waterbottle1", "A bottle of water", path + "/Images/Items/waterbottle.png");
+        water2 = new Item("waterbottle2", "A bottle of water", path + "/Images/Items/waterbottle.png");
+        water3 = new Item("waterbottle3", "A bottle of water", path + "/Images/Items/waterbottle.png");
+        water4 = new Item("waterbottle4", "A bottle of water", path + "/Images/Items/waterbottle.png");
+        water5 = new Item("waterbottle5", "A bottle of water", path + "/Images/Items/waterbottle.png");
+        water6 = new Item("waterbottle6", "A bottle of water", path + "/Images/Items/waterbottle.png");
+        
+        note1 = new Item("note1", "A note", path + "/Images/Items/note.png");
+        note2 = new Item("note1", "A note", path + "/Images/Items/note.png");
+        note3 = new Item("note1", "A note", path + "/Images/Items/note.png");
+        note4 = new Item("note1", "A note", path + "/Images/Items/note.png");
         
         //add items to room
         bathroom.addItem(toiletpaper);
         bedroom.addItem(book);
-        bedroom.addItem(watch);
-        suite.addItem(gloves);
+        balcony.addItem(gloves);
         suite.addItem(booze);
-        outside.addItem(phone);
+        basement.addItem(key);
+        suitcase.addItem(watch);
+        store.addItem(phone);
+        
+        bathroom.addItem(water1);
+        suite.addItem(water2);
+        store.addItem(water3);
+        balcony.addItem(water4);
+        lobby.addItem(water5);
+        roof.addItem(water6);
+        
+        outside.addItem(note1);
+        suite.addItem(note2);
+        bathroom.addItem(note3);
+        roof.addItem(note4);
         
         return outside;
     }
-    
-    /**
-     * Main method that executes the user input commands.
-     * 
-     * @param com The command to be executed along with desired direction or item.
-     */
-    public void play(String[] com)
-    {
-        switch(com[0]) {
-	        case "go":
-	            go(com[1]);
-	            break;
-	        case "take":
-	            pickItem(com[1]);
-	            break;
-	        case "drop":
-	            dropItem(com[1]);
-	            break;
-	        case "quit":
-	            quit();
-	            break;
-	        case "backpack":
-	            backpack();
-	            break;
-	        case "help":
-	        	player1.help();
-	        	break;
-	        default:
-	            System.out.println("Invalid command");
-	            break;
-        }
-    }
-    
-    //Methods
     
     /**
      * Moves to the room at the specified direction.
      * 
      * @param direction The direction to move to.
      */
-    private void go(String direction)
+    public void go(String direction)
     {
-    	player1.go(direction);
+        player.go(direction);
     }
     
-    /**
-     * Picks up the item that is specified in the parameter.
-     * 
-     * @param item The item to be picked up.
-     */
-    private void pickItem(String item)
+    public HangoMeter getHango()
     {
-    	player1.pickUpItem(item);
-    }
-    /**
-     * Drops the the item that is specified in the parameter.
-     * 
-     * @param item The item to be dropped.
-     */
-    private void dropItem(String item)
-    {
-    	player1.dropItem(item);
-    }
-    /**
-     * Prints out the items in the backpack.
-     */
-    private void backpack()
-    {
-        player1.printBackpack();
+        return player.getHango();
     }
     
-    /**
-     * Method that is performed when a user wishes to quit the game.
-     */
-    private void quit()
+    public Player getPlayer()
     {
-    	System.out.println("Thanks for playing " + player1.getName() + ", bye!");
-    	System.exit(0);
+        return player;
+    }
+    
+    public Backpack getBackpack()
+    {
+        return player.getBackpack();
     }
 }

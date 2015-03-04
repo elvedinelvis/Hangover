@@ -1,3 +1,10 @@
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.*;
+
 
 /**
  * Creates a player with a name and backpack.
@@ -6,37 +13,38 @@
  * @author
  *
  */
-public class Player
+public class Player extends Observable implements Observer
 {
     //Fields
     private String name;
     private Room currentRoom;
-    private int maxItem;
     private Backpack backpack;
-  //private Hangometer hangometer;
+    private HangoMeter hangometer;
+    private boolean startOfGame;
+    private boolean endGame;
     
     /**
      * Constructor for objects of class Player
      */
-    public Player(String name, Room room)
+    public Player(String name)
     {
         this.name = name;
-        enterRoom(room);
-        maxItem = 6;
         backpack = new Backpack();
-        printWelcome();
-        //hangometer = new Hangometer();
+        hangometer = new HangoMeter();
+        hangometer.addObserver(this);
+        startOfGame = true;
+        endGame = false;
     }
     
     //Methods
     /**
      * Prints out a welcome message when starting a new game.
      */
-    private void printWelcome()
+    public void welcome()
     {
-        System.out.print("Hello " + getName());
-        System.out.println(" and welcome to the Hangover game");
-        System.out.println("Enter a direction to move to another room");
+        System.out.println( "Hello " + getName() + 
+            " and welcome to the Hangover game!" + 
+            "\n\nPress a direction to move to another area");
         printLocationInfo();
     }
     
@@ -58,64 +66,18 @@ public class Player
     public void go(String direction)
     {
         if(currentRoom.testDirection(direction)) {
-            enterRoom(currentRoom.getExit(direction));
-            System.out.println("You are in the " + currentRoom.getDescription());
-            printLocationInfo();
-        }
-        else {
-            System.out.println("No room in that direction or invalid command");
-        }
-    }
-    
-    /**
-     * Picks up the specified item.
-     * 
-     * @param item The item to be picked up.
-     */
-    public void pickUpItem(String item)
-    {
-        if(currentRoom.itemExist(item)) {
-            if(canBePickedUp()) {
-                Item item1 = currentRoom.getItem(item);
-                backpack.addItem(item1);
-                currentRoom.removeItem(item1);
-                System.out.println("Item picked up");
+            if(!currentRoom.getExit(direction).getLocked()){
+                enterRoom(currentRoom.getExit(direction));
+                System.out.println("You are " + currentRoom.getDescription());
                 printLocationInfo();
-             }
-            else {
-            	System.out.println("Backpack is full");
+            }
+            else{
+                System.out.println("Room is locked, you are missing an item.");
             }
         }
         else {
-            System.out.println("Item does not exist");
+            System.out.println("No room in that direction or invalid command.");
         }
-
-    }
-    
-    /**
-     * Drops the specified item.
-     * 
-     * @param item The item to be dropped.
-     */
-    public void dropItem(String item)
-    {
-        if(itemInBackpack(item)) {
-            currentRoom.addItem(backpack.getItem(item));
-            backpack.removeItem(item);
-            printLocationInfo();
-        }
-        else {
-        	System.out.println("You do not have that item in your backpack");
-        }
-    }
-    
-    /**
-     * Prints out the available commands.
-     */
-    public void help()
-    {
-    	System.out.println("You are " + currentRoom.getDescription());
-    	System.out.println("Available commands: go, take, backpack, quit, help");
     }
     
     /**
@@ -126,18 +88,10 @@ public class Player
      */
     public boolean canBePickedUp()
     {
-        if(backpack.getSize() < maxItem) {
+        if(backpack.getSize() < backpack.getMaxItems()) {
             return true;
         }
         return false;
-    }
-    
-    /**
-     * Prints out the items in the backpack.
-     */
-    public void printBackpack()
-    {
-        System.out.println(backpack.backpackItems());
     }
     
     /**
@@ -148,18 +102,17 @@ public class Player
     public void enterRoom(Room room)
     {
         currentRoom = room;
-    }
-    
-    /**
-     * Checks if the specified item is in the backpack.
-     * 
-     * @param item The item to be tested.
-     * 
-     * @return true if item is in backpack, otherwise return false.
-     */
-    private boolean itemInBackpack(String item)
-    {
-        return backpack.itemExist(item);
+        
+        if(!startOfGame) {
+            hangometer.looseLife();
+        }
+        startOfGame = false;
+        
+        for(Item i : currentRoom.getItemList()) {
+            i.addObserver(this);
+        }
+        setChanged();
+        notifyObservers(currentRoom);
     }
     
     /**
@@ -167,7 +120,60 @@ public class Player
      */
     public void printLocationInfo()
     {
-    	System.out.println(currentRoom.getItemString());
-    	System.out.println(currentRoom.getExitString());
+        System.out.println(currentRoom.getExitString());
+    }
+    
+    public HangoMeter getHango()
+    {
+        return hangometer;
+    }
+    
+    public Room getCurrentRoom()
+    {
+        return currentRoom;
+    }
+    
+    public ArrayList<Item> getBackpackItems()
+    {
+        return backpack.getAllItems();
+    }
+
+    public Backpack getBackpack()
+    {
+        return backpack;
+    }
+    
+    private void endOfGame(String end)
+    {
+        System.out.println(end);
+        this.endGame = true;
+        //This line makes the game exit at 0 % life.
+        //System.exit(0);
+    }
+    
+    public boolean getEndGame()
+    {
+        return endGame;
+    }
+    
+    public void updateRoomGui()
+    {
+        currentRoom.updateUI();
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        if(o instanceof Item && arg instanceof String) {
+            setChanged();
+            if(backpack.itemExist((String)arg)) {
+                notifyObservers(backpack.getItem((String)arg));
+            }
+            else {
+                notifyObservers(currentRoom.getItem((String)arg));
+            }   
+        }
+        else if(o instanceof HangoMeter && arg instanceof String) {
+            endOfGame((String)arg);
+        }
     }
 }

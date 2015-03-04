@@ -1,18 +1,14 @@
-import java.util.Scanner;
-
 
 public class Main {
 
 	public static void main(String[] arg)
 	{
-		Game game = new Game();
-		Scanner cs = new Scanner(System.in);
-		while(true) {
-	        String command = cs.nextLine();
-	        String[] com = command.split(" ");
-	        game.play(com);
+		Player player = new Player("Chalmerist");
+	    MainFrame mainframe = new MainFrame(new Game(player));
+		player.welcome();
+		
+		while(!player.getEndGame()) {
+			
 		}
 	}
-	
-
 }

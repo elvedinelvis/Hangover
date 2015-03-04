@@ -1,2 +1,0 @@
-# Hangover
-The Hangover Game

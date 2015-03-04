@@ -1,65 +1,30 @@
-import javax.swing.ActionMap;
-import javax.swing.ImageIcon;
-import javax.swing.InputMap;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.KeyStroke;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * NavigationPanel class which holds and handles the four different buttons,
  * North, South, West and East.
  * 
- * @author Elvedin Cuskic
- * @version 4/2 - 15
+ * @author
+ * @version
  */
-public class NavigationPanel extends JPanel implements ActionListener
+
+public class NavigationPanel extends JPanel
 {
     private JButton north;
     private JButton south;
     private JButton west;
     private JButton east;
-    private Game game=new Game();
+    private Game game;
     
     /**
      * Constructor for objects of class NavigationPanel
      */
-    public NavigationPanel()
-    { 	
-        north = new JButton("North"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowNorth.png")*/);
-        north.addActionListener(new ActionListener(){			
-        	public void actionPerformed(ActionEvent e) {
-				game.go("north");
-        	}
-        });
-        
-        south = new JButton("South"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowSouth.png")*/);
-        south.addActionListener(new ActionListener(){
-        	public void actionPerformed(ActionEvent e) {
-            	game.go("south");
-        	}
-        });
-        
-        west = new JButton("West"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowWest.png")*/);
-        west.addActionListener(new ActionListener(){
-        	public void actionPerformed(ActionEvent e) {
-            	game.go("west");
-        	}
-        });
-        
-        east = new JButton("East"/*new ImageIcon("C:\\Users\\Erik\\Desktop\\Java\\arrowEast.png")*/);
-        east.addActionListener(new ActionListener(){
-        	public void actionPerformed(ActionEvent e) {
-            	game.go("east");	
-        	}
-        });
-        
+    public NavigationPanel(Game game)
+    {
+    	this.game = game;
+    	createButtons();
         makePanel();
     }
     
@@ -69,6 +34,8 @@ public class NavigationPanel extends JPanel implements ActionListener
     private void makePanel(){
         setPreferredSize(new Dimension(160,120));
         setLayout(new BorderLayout());
+        setBackground(Color.black);
+        
         
         add(north, BorderLayout.NORTH);
         add(south, BorderLayout.SOUTH);
@@ -76,5 +43,46 @@ public class NavigationPanel extends JPanel implements ActionListener
         add(east, BorderLayout.EAST);
 
         setVisible(true);
+    }
+    
+    private void createButtons()
+    {
+    	String path = System.getProperty("user.dir");
+    	
+        north = new JButton();
+        north.setIcon(new ImageIcon(path + "/Images/Gui/arrowNorth.jpg"));
+        north.setBorder(null);
+    	north.addActionListener(new ActionListener(){			
+        	public void actionPerformed(ActionEvent e) {
+				game.go("north");
+        	}
+        });
+        
+        south = new JButton();
+        south.setIcon(new ImageIcon(path + "/Images/Gui/arrowSouth.jpg"));
+        south.setBorder(null);
+        south.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e) {
+            	game.go("south");
+        	}
+        });
+        
+        west = new JButton();
+        west.setIcon(new ImageIcon(path + "/Images/Gui/arrowWest.jpg"));
+        west.setBorder(null);
+        west.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e) {
+            	game.go("west");
+        	}
+        });
+        
+        east = new JButton();
+        east.setIcon(new ImageIcon(path + "/Images/Gui/arrowEast.jpg"));
+        east.setBorder(null);
+        east.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e) {
+            	game.go("east");	
+        	}
+        });
     }
 }

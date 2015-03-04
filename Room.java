@@ -1,4 +1,8 @@
+import java.awt.*;
+import java.awt.List;
 import java.util.*;
+
+import javax.swing.*;
 
 /**
  * Creates a room with exits, rooms and a description.
@@ -6,23 +10,29 @@ import java.util.*;
  * @author
  *
  */
-public class Room
+public class Room extends JLabel
 {
     //Fields
     private HashMap<String, Room> exits;
     private HashMap<String, Item> items;
     private String description;
     private String name;
+    private String path;
+    private boolean locked;
     
     /**
      * Constructor for objects of class Room
      */
-    public Room(String name, String description)
+    public Room(String name, String description, boolean locked, String path)
     {
         exits = new HashMap<String, Room>();
         items = new HashMap<String, Item>();
         this.description = description;
+        this.path = path;
         this.name = name;
+        this.locked = locked;
+        setLayout(new FlowLayout());
+    	setIcon(new ImageIcon(path));
     }
     
     //Methods
@@ -34,6 +44,8 @@ public class Room
     public void addItem(Item item)
     {
         items.put(item.getName(), item);
+        add(item.getButton());
+        updateUI();
     }
     
     /**
@@ -45,6 +57,8 @@ public class Room
     {
         if(items.containsKey(item.getName())) {
             items.remove(item.getName());
+            remove(item.getButton());
+            updateUI();
         }
     }
     
@@ -74,27 +88,6 @@ public class Room
         else {
             return false;
         }
-    }
-    
-    /**
-     * Collects a string of all the items in the room.
-     * 
-     * @return A string of all the items.
-     */
-    public String getItemString()
-    {
-        StringBuilder returnString = new StringBuilder();
-        returnString.append("Items: ");
-        Set<String> itemList = items.keySet();
-        int count = itemList.size();
-        for(String i : itemList) {
-            returnString.append(i);
-            if(count > 1) {
-                returnString.append(", ");
-            }
-            count--;
-        }
-        return returnString.toString();
     }
     
     /**
@@ -144,18 +137,19 @@ public class Room
      */
     public String getExitString()
     {
-        StringBuilder returnString = new StringBuilder();
-        returnString.append("Exits: ");
-        Set<String> keyList = exits.keySet();
-        int count = exits.size();
-        for(String i : keyList) {
-            returnString.append(i);
-            if(count > 1) {
-                returnString.append(", ");
-            }
-            count--;
+        StringBuilder sb = new StringBuilder(1000);
+        Set<String> keys = exits.keySet();
+        
+        for(String exit : keys) {
+            //Appends the string with the exit, changes first letter to an uppercase.
+            sb.append(Character.toString(exit.charAt(0)).toUpperCase()+exit.substring(1));
+            sb.append(": ");
+            //Appends the string with the exitroom, changes first letter to an uppercase.
+            sb.append(Character.toString(exits.get(exit).getName().charAt(0)).toUpperCase()
+                      +exits.get(exit).getName().substring(1));
+            sb.append("      ");
         }
-        return returnString.toString();
+        return sb.toString();
     }
     
     /**
@@ -168,7 +162,47 @@ public class Room
         return description;
     }
     
-    /*public void getGUI()
+    /**
+     * Gets the lockstatus of the room.
+     * 
+     * @return locked.
+     */
+    public boolean getLocked()
     {
+    	return locked;
+    }
+    
+    /**
+     * Gets the name of the room.
+     * 
+     * @return name.
+     */
+    public String getName()
+    {
+    	return name;
+    }
+    
+    /**
+     * Sets the lockstatus of the room.
+     * 
+     * @param lockStatus.
+     */
+    public void setLocked(boolean lockStatus)
+    {
+    	locked = lockStatus;
+    }
+    
+    public ArrayList<Item> getItemList()
+    {
+    	return new ArrayList<Item>(items.values());
+    }
+    
+    /*public void GUI()
+    {
+    	setLayout(new FlowLayout());
+    	setIcon(new ImageIcon(path));
+    	for(Item i : getItemList()) {
+    		add(i.getButton());
+    	}
     }*/
 }
